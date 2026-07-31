@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales on Credit (FA1) - Portal</title>
+    <style>
+        :root {
+            --primary-bg: #0b1c3c;
+            --accent-blue: #2d5a9e;
+            --text-dark: #1a1f36;
+            --text-light: #6b7280;
+            --bg-light: #f7f9fc;
+            --border-color: #e5e7eb;
+            --correct: #10b981;
+            --incorrect: #ef4444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            /* Premium soft white/grey gradient background */
+            background: linear-gradient(135deg, #fdfbfb 0%, #e2e8f0 100%);
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .portal-container {
+            background-color: white;
+            width: 100%;
+            max-width: 480px;
+            border-radius: 16px;
+            overflow: hidden;
+            /* Premium soft shadow for a floating effect */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        .header {
+            background-color: var(--primary-bg);
+            color: white;
+            padding: 30px 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before, .header::after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+        .header::before { width: 200px; height: 200px; top: -50px; right: -50px; }
+        .header::after { width: 150px; height: 150px; bottom: -50px; left: -20px; }
+
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.2;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            margin: 0;
+            font-size: 13px;
+            color: #a3b8d7;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-section { padding: 20px 25px 0; }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .progress-bar-bg {
+            background-color: var(--border-color);
+            height: 6px;
+            border-radius: 3px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background-color: var(--primary-bg);
+            height: 100%;
+            width: 0%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .question-container { padding: 25px; }
+
+        .badges {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .q-number {
+            background-color: #e8f0fe;
+            color: var(--accent-blue);
+            font-weight: 700;
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+
+        .difficulty {
+            background-color: #d1fae5;
+            color: #065f46;
+            font-weight: 700;
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option:hover:not(.disabled) {
+            background-color: var(--bg-light);
+            border-color: #cbd5e1;
+        }
+
+        .option.selected.correct {
+            border-color: var(--correct);
+            background-color: #ecfdf5;
+        }
+
+        .option.selected.incorrect {
+            border-color: var(--incorrect);
+            background-color: #fef2f2;
+        }
+
+        .option.show-correct {
+            border-color: var(--correct);
+            background-color: #ecfdf5;
+        }
+
+        .option.disabled {
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .option-letter {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 28px;
+            height: 28px;
+            background-color: var(--bg-light);
+            color: var(--accent-blue);
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 13px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .option.selected.correct .option-letter, .option.show-correct .option-letter {
+            background-color: var(--correct);
+            color: white;
+        }
+
+        .option.selected.incorrect .option-letter {
+            background-color: var(--incorrect);
+            color: white;
+        }
+
+        .option-text {
+            font-size: 14px;
+            color: var(--text-dark);
+            line-height: 1.4;
+        }
+
+        .next-btn {
+            display: none;
+            width: 100%;
+            background-color: var(--primary-bg);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .next-btn:hover { background-color: #1a3673; }
+
+        .results {
+            text-align: center;
+            display: none;
+        }
+        
+        .results h2 { color: var(--text-dark); margin-bottom: 10px; }
+        
+        .score-box {
+            background-color: var(--bg-light);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .score-box h3 {
+            margin: 0 0 10px 0;
+            color: var(--accent-blue);
+            font-size: 24px;
+        }
+        
+        .percentage-text {
+            font-size: 16px;
+            color: var(--text-light);
+            font-weight: 500;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="portal-container">
+    <div class="header">
+        <h1>Sales on Credit (FA1)</h1>
+        <p>Revision Portal</p>
+    </div>
+
+    <div class="progress-section" id="progress-container">
+        <div class="progress-text">
+            <span id="question-count">Question 1 of X</span>
+            <span id="completion-percentage">0% complete</span>
+        </div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progress-bar"></div>
+        </div>
+    </div>
+
+    <div class="question-container" id="quiz-area">
+        <div class="badges">
+            <div class="q-number" id="q-badge">Q1</div>
+            <div class="difficulty">EXAM PREP</div>
+        </div>
+        
+        <div class="question-text" id="question-text"></div>
+        <div class="options-list" id="options-list"></div>
+        <button class="next-btn" id="next-btn" onclick="nextQuestion()">Next Question</button>
+    </div>
+
+    <div class="question-container results" id="results-area">
+        <h2>Revision Complete!</h2>
+        
+        <div class="score-box">
+            <h3>Total Marks: <span id="score"></span> / <span id="total"></span></h3>
+            <p class="percentage-text">Percentage: <span id="percentage"></span>%</p>
+        </div>
+        
+        <button class="next-btn" style="display: block;" onclick="location.reload()">Restart Revision</button>
+    </div>
+</div>
+
+<script>
+    const quizData = [
+        { id: "Q1", text: "XYZ Co has the following balances extracted from its returns inwards day book for a month. Total (inc sales tax) $36,000, sales tax $6,000, net $30,000. Which is the correct posting?", options: ["DR sales returns $30,000, DR sales tax $6,000, CR receivables ledger control $36,000", "DR purchase returns $30,000, DR sales tax $6,000, CR payables ledger control $36,000", "DR sales returns $36,000, CR sales tax $6,000, CR receivables ledger control $30,000", "DR purchase returns $36,000, CR sales tax $6,000, CR payables ledger control $30,000"], correct: 0 },
+        { id: "Q2", text: "What is meant by the term 'integrated receivables ledger'?", options: ["Double entry processes no longer operate because this is an example of a computerised system", "Separate personal accounts are no longer maintained, control accounts only are kept", "Customer accounts are part of the double entry; general ledger and receivables ledger postings are combined", "Customer and suppliers accounts are combined in one integrated ledger"], correct: 2 },
+        { id: "Q3", text: "Which of the following combinations correctly describes the need for personal accounts for customers in a business? (i) To deal with customer queries (ii) To prepare statements (iii) To monitor customer credit limits (iv) To match cash received with invoices", options: ["(i), (ii), (iii)", "(ii), (iii), (iv)", "(i), (iii), (iv)", "(i), (ii), (iii), (iv)"], correct: 3 },
+        { id: "Q4", text: "Which of the following is a valid reason for a debt being written off as irrecoverable?", options: ["The customer has ceased trading", "The customer disputes the quality of goods supplied", "The customer has exceeded the account credit limit", "The customer has ceased trading and no dividend is expected from a liquidation"], correct: 3 },
+        { id: "Q5", text: "Irrecoverable debts written off appear in the financial statements as?", options: ["An expense in the statement of financial position", "An expense in the statement of profit or loss", "A deduction from sales revenue", "A deduction from the receivables figure in the statement of financial position"], correct: 1 },
+        { id: "Q6", text: "What is an 'aged debt analysis'?", options: ["An analysis of the length of time customers have traded with the business", "A summary of transactions on customers' accounts", "The total debt on the receivables ledger is broken down into different elements of outstanding debt according to pre determined time periods usually 30, 60, 90 days", "An analysis of all debts overdue for payment"], correct: 2 },
+        { id: "Q7", text: "A credit controller wishing to decide which debts need to be chased up would refer to which of the following?", options: ["Age analysis of payables", "Age analysis of receivables", "Bank reconciliation", "Receivables control account"], correct: 1 },
+        { id: "Q8", text: "The following entries appeared in the receivables ledger control account for June. Balance b/f 1st June $7,500, sales $20,000, receipts from customers $8,000, discounts allowed $400, irrecoverable debts written off $500. What was the balance at 30th June?", options: ["$3,600", "$19,400", "$19,600", "$18,600"], correct: 3 },
+        { id: "Q9", text: "A business maintains a receivables ledger control account. A debt of $1,500 is to be written off. Which of the following entries is correct (ignore sales tax)?", options: ["Debit: personal account of the customer, credit: irrecoverable debts expense, $1,500", "Debit: irrecoverable debts expense, credit: receivables ledger control, $1,500", "Debit: receivables ledger control, credit: irrecoverable debts expense, $1,500", "Debit: irrecoverable debts expense, credit: personal account of the customer, $1,500"], correct: 1 },
+        { id: "Q10", text: "A document sent to customers at the end of a month to show the transactions that have occurred and the amount owed is know as what?", options: ["Sales analysis", "Age analysis of receivables", "Statement of account", "Receivables control account"], correct: 2 },
+        { id: "Q11", text: "If goods are to be paid for in advance, the seller may issue which document?", options: ["A debit note", "A statement", "A pro-forma invoice", "A goods received note"], correct: 2 },
+        { id: "Q12", text: "Which one of the following statements concerning direct debits is correct?", options: ["Each payment under a direct debit must be for a fixed amount", "The person making the payment sends the direct debit form directly to his bank", "The company taking the direct debit must send the person paying a regular statement showing amounts taken and dates", "The direct debit can only be cancelled by the debiting company"], correct: 1 },
+        { id: "Q13", text: "Cal makes a sale on credit for $423 excluding sales tax at 20%. What is the entry to the trade receivables account?", options: ["Debit $423.00", "Credit $507.60", "Debit $507.60", "Credit $423.00"], correct: 2 },
+        { id: "Q14", text: "You receive a cheque from one of your credit customers. How is this posted to the general ledger?", options: ["DR Cash CR Sales", "DR Receivables ledger control account CR Sales", "DR Cash CR Receivables ledger control account", "DR Sales CR Receivables ledger control account"], correct: 3 },
+        { id: "Q15", text: "Anwar makes sales in the quarter of $34,800 including sales tax at 20%. His total purchases net of sales tax are $8,510. How much should he pay to the government?", options: ["$5,800.00", "$5,258.00", "$4,098.00", "$1,702.00"], correct: 2 },
+        { id: "Q16", text: "All of Jimmy's sales are subject to sales tax at 20%. He invoices a customer for $1,700 plus sales tax and receives a cheque in full payment the following month. How is the cheque posted to the general ledger?", options: ["DR Cash $2,040.00, CR Sales $1,700.00, CR sales tax $340.00", "DR Receivables ledger control account $1,700.00, DR sales tax $340.00, CR Cash $2,040.00", "DR Cash $1,700.00, DR sales tax $340.00, CR Sales $2,040.00", "DR Cash $2,040.00, CR Receivables ledger control account $2,040.00"], correct: 3 },
+        { id: "Q17", text: "Janet has not registered for sales tax as her turnover is below the limit. Her sales for the quarter are $3,500 on which no sales tax is charged. Her total outgoings are $1,150. If Janet had been registered for sales tax, how much would she owe to the government for the quarter if the sales tax rate is 20%?", options: ["$583.33", "$353.33", "$470.00", "$508.33"], correct: 3 },
+        { id: "Q18", text: "The trade receivables control account balance is $1,000 and the total of the individual trade receivables balances is $850. Which of the following errors could account for this difference?", options: ["A receipt from a credit customer $150 was recorded twice in the receivables ledger and control account", "A receipt from a credit customer $150 was not recorded at all in the receivables ledger", "A receipt from a credit customer $150 was not recorded at all in the control account", "A receipt from a credit customer $150 was recorded twice in the control account"], correct: 1 },
+        { id: "Q19", text: "Janice buys a dress costing $130, shoes costing $70 and a jacket costing $190. These are all gross figures, inclusive of sales tax at 20%. How much sales tax in total has Janice paid?", options: ["$65.00", "$68.00", "$75.00", "$78.00"], correct: 0 },
+        { id: "Q20", text: "Idris is a sales tax registered trader. On 1 October he purchases carpets for his new showroom at the list price of $2,000. He is given a trade discount of 10% and the sales tax rate is 20%. What sum will Idris be invoiced, inclusive of sales tax?", options: ["$2,400", "$2,640", "$1,760", "$2,160"], correct: 3 },
+        { id: "Q21", text: "What is the double entry required for discounts allowed to customers?", options: ["DR Purchase ledger control account CR Discounts allowed", "DR Sales ledger control account CR Discounts allowed", "DR Discounts allowed CR Sales ledger control account", "CR Discounts allowed CR Purchase ledger control account"], correct: 2 },
+        { id: "Q22", text: "Which document will a business issue to a cash customer?", options: ["A receipt", "A purchase order", "A goods received note", "A remittance advice"], correct: 0 },
+        { id: "Q23", text: "Your assistant bookkeeper has presented you with the following receivables ledger control account... Which of the following items is/are on the wrong side of the account?", options: ["Opening balance", "Discounts allowed only", "Sales returns only", "Discounts allowed and sales returns"], correct: 1 },
+        { id: "Q24", text: "The balance on the receivables ledger control account is $126 more than the list of customer balances. This could be caused by which one of the following?", options: ["An invoice for $126 omitted from the sales day book", "A credit note for $126 omitted from the sales returns day book", "A customer refund of $126 posted twice to the receivables ledger", "A credit note for $63 entered twice into the receivables ledger"], correct: 1 },
+        { id: "Q25", text: "Peter makes sales in the quarter of $50,226 including sales tax at 20%. His total purchases net of sales tax are $23,980. How much should he pay to the tax authorities?", options: ["$6,048.53", "$5,249.20", "$4,374.33", "$3,575.00"], correct: 3 },
+        { id: "Q26", text: "All of Martina's sales are subject to sales tax at 20%. She invoices a customer for $2,500 plus sales tax and receives a cheque in full payment the following month. How is the cheque posted to the general ledger?", options: ["DR Cash $3,000, CR Sales $2,500, CR sales tax $500", "DR Receivables ledger control account $2,500, DR sales tax $500, CR Cash $3,000", "DR Cash $2,500, DR sales tax $500, CR Sales $3,000", "DR Cash $3,000, CR Receivables ledger control account $3,000"], correct: 3 },
+        { id: "Q27", text: "The year end balance on Mel's receivables control account stands at $6,650. What does this mean?", options: ["Customers owe Mel $6,650", "Mel owes $6,650 to suppliers", "Mel has received goods valued at $6,650 on credit", "Mel has supplied $6,650 worth of goods on credit"], correct: 0 },
+        { id: "Q28", text: "Montgomery gives his customers a 6% discount for prompt payment. What is the double entry to record this?", options: ["DR Receivables ledger control account CR Discounts allowed", "DR Discounts allowed CR Receivables ledger control account", "DR Receivables ledger control account CR Discounts received", "DR Discounts received CR Receivables ledger control account"], correct: 1 },
+        { id: "Q29", text: "Which of the following items would be considered for writing off as a bad debt (ie irrecoverable)?", options: ["A sale made for cash", "A credit sale made within the last month", "A credit sale over the business’s credit limit", "A credit sale to a customer who has ceased to trade because of bankruptcy"], correct: 3 },
+        { id: "Q30", text: "What is the purpose of a remittance advice?", options: ["To indicate items now paid", "To identify goods received", "To advise remittances received", "For notification of goods dispatched"], correct: 0 },
+        { id: "Q31", text: "A Co sold goods to the value of $500 (net) to Harper. In A Co’s accounting records, what would be the debit to Harper‘s account if sales tax is payable at the rate of 17.5%?", options: ["$412.50", "$500.00", "$587.50", "$606.06"], correct: 2 },
+        { id: "Q32", text: "A summary of the transactions of Ramsgate, who is registered for sales tax at 17.5%, shows the following for the month of August 20X9. Outputs $60,000 (exclusive), Inputs $40,286 (inclusive). Open bal $3,400 owed, paid $2,600. What is the amount due at the end?", options: ["$3,700", "$3,930", "$4,400", "$5,300"], correct: 3 },
+        { id: "Q33", text: "Which of the following statements is true in relation to the sales account?", options: ["It is credited with the total of sales made, including sales tax", "It is credited with the total of sales made, excluding sales tax", "It is debited with the total of sales made, including sales tax", "It is debited with the total of sales made, excluding sales tax"], correct: 1 },
+        { id: "Q34", text: "A business sold goods that had a net value of $600 to Lucid plc. What entries are required to record this transaction if sales tax is payable at 17.5%?", options: ["Dr Lucid plc $600, Dr Sales tax $105, Cr Sales $705", "Dr Lucid plc $705, Cr Sales tax $105, Cr Sales $600", "Dr Lucid plc $600, Cr Sales tax $105, Cr Sales $600", "Dr Sales $600, Dr sales tax $105, Cr Lucid plc $705"], correct: 1 },
+        { id: "Q35", text: "A sales tax registered business issued a sales invoice for goods with a list price of $1,325.00 on which a trade discount of 20% was given. The goods were rated for sales tax at 10%. What was the sales tax charged on the invoice?", options: ["$106.00", "$132.50", "$238.50", "$119.25"], correct: 0 },
+        { id: "Q36", text: "Sam is preparing an invoice for the sales of a machine. The list price of the machine is $12,000, subject to a trade discount of 10%. The sale is subject to sales tax at 15%. How much sales tax should be included in the invoice?", options: ["$1,530", "$1,620", "$1,080", "$1,020"], correct: 1 },
+        { id: "Q37", text: "Which of the following transactions is a credit transaction?", options: ["Sale of goods for cash", "Sale of goods and receipt of a cheque", "Sale of goods with payment due in 60 days", "Receipt of a cheque for goods sold 40 days ago"], correct: 2 },
+        { id: "Q38", text: "Rohini was invoiced for $100 less 5% trade discount. Rohini's supplier is not registered for sales tax. When Rohini pays the invoice, how much will be paid?", options: ["$92.50", "$92.63", "$95.00", "$7.50"], correct: 2 },
+        { id: "Q39", text: "A sale was made for $414 inclusive of sales tax at 15%. What was the accounting entry to the sales account?", options: ["Debit $360", "Credit $360", "Debit $414", "Credit $414"], correct: 1 },
+        { id: "Q40", text: "Cash of $282 was received from a receivable that had purchased goods on credit for $240 plus sales tax at 17.5%. What is the double entry required to record this receipt?", options: ["Debit cash $282 Credit sales $240 Credit sales tax $42", "Debit cash $282 Credit sales $282", "Debit cash $282 Credit receivables $240 Credit sales tax $42", "Debit cash $282 Credit receivables $282"], correct: 3 },
+        { id: "Q41", text: "What does a debit balance on the sales tax account represent?", options: ["An amount of sales tax owing to the tax authorities", "A sales tax expense to be written off in the profit and loss account", "An amount of sales tax due from the tax authorities", "Sales tax income to be included in the statement of comprehensive income"], correct: 2 },
+        { id: "Q42", text: "At the start of a month, accounts receivable owed $4,529. During the month total sales were $16,540 of which 40% were for cash. Cash was received from receivables of $7,231 during the month. What was the balance of accounts receivable at the end of the month?", options: ["$1,836", "$3,914", "$5,144", "$7,222"], correct: 3 },
+        { id: "Q43", text: "During a three‐month period, a business made sales of $69,200 plus sales tax at 15%. The balance on the receivables account at the start of the period was $5,329 and at the end of the period $4,771. How much cash was received from receivables during the period?", options: ["$68,642", "$69,758", "$79,022", "$80,138"], correct: 3 },
+        { id: "Q44", text: "Avalon gives customers individual trade discounts... Nolava negotiates a 25% trade discount... June 12 Buys $5,000 list, June 15 Returns $1,000 list, June 16 Pays half net balance. How much does Nolava owe at the end of June?", options: ["$1,425", "$1,500", "$2,000", "$2,850"], correct: 1 },
+        { id: "Q45", text: "If a credit customer takes advantage of early settlement discount terms, when they were NOT originally expected to do so, how would the settlement discount be accounted for?", options: ["It would increase expenses", "It would be a reduction in revenue receivable", "It would be offset against discount received", "It would increase cost of sales"], correct: 1 },
+        { id: "Q46", text: "Vic sells materials to Fraser for $240. Fran manufactures goods from these materials and sells them to a customer, Sam, for $360 plus sales tax. Both registered, 17.5% rate. How much sales tax is paid to the taxation authorities by each party?", options: ["Vic pays $42 and Fran pays $63", "Fran pays $42 and Sam pays $63", "Vic pays $42 and Fran pays $21", "Fra pays $42 and Helen pays $21"], correct: 2 },
+        { id: "Q47", text: "Opening balance on sales tax account owing $3,210. Sales $21,700 (excl), purchases $18,480 (incl). Paid $2,890. Rate 10%. What is the balance carried forward on the sales tax account?", options: ["$642 credit", "$810 credit", "$1,042 credit", "$196 credit"], correct: 1 },
+        { id: "Q48", text: "Which of the following procedures should help to reduce overdue receivables’ balances?", options: ["Improved debt collection methods", "An increase in the bank overdraft facility", "Credit customers paying invoices more slowly", "An increase in credit facilities to customers"], correct: 0 },
+        { id: "Q49", text: "Chay sold goods for $1,200 and bought goods for $810. Both transactions included sales tax at 20% in the prices given. How much will Chay pay to the tax authorities in respect of these two transactions?", options: ["$38.00", "$65.00", "$78.00", "$390.00"], correct: 1 },
+        { id: "Q50", text: "Which of the following statements best explains what output tax is?", options: ["It is a sales tax on purchases", "It is a sales tax on sales", "It is a payment to the tax authorities", "It is a repayment from the tax authorities"], correct: 1 },
+        { id: "Q51", text: "On 1 February the credit balance on Jo's Sales tax account was $2,400. During the month, sales tax on sales was $1,050, sales tax on purchases and other expenses was $900 and a repayment of sales tax was received of $200. What was the credit balance at 28 February?", options: ["$2,050", "$2,350", "$2,450", "$2,750"], correct: 3 },
+        { id: "Q52", text: "Who normally suffers the burden of sales tax?", options: ["The first supplier in the chain of supply", "The manufacturer", "The retailer", "The consumer"], correct: 3 },
+        { id: "Q53", text: "During March 20X6 a business made sales of $24,600 and purchases of $15,200 exclusive of sales tax. Rate 17.5%. What is the balance on the sales tax account at 31 March 20X6 if the opening balance was zero?", options: ["A debit balance of $1,645", "A credit balance of $1,645", "A debit balance of $11,045", "A credit balance of $11,045"], correct: 1 },
+        { id: "Q54", text: "During a three‐month period a business made the following sales and purchases: Sales $34,800 (exclusive), Purchases $30,785 (inclusive). Rate 17.5%. What is the balance on the sales tax account if opening balance was zero?", options: ["$598", "$703", "$1,505", "$8,600"], correct: 2 },
+        { id: "Q55", text: "During a three‐month period a business made sales of $72,145 (including sales tax at 17.5%), and purchases of $54,200 (excluding sales tax at 17.5%). Opening amount due $1,354. What was the balance at the end?", options: ["$94", "$1,260", "$2,614", "$4,669"], correct: 2 },
+        { id: "Q56", text: "At what point should sales tax on a credit sale be recorded?", options: ["By the supplier when the invoice is issued and by the customer when the invoice is received", "By the supplier when the invoice is issued and by the customer when the payment is made to the supplier", "By the supplier when the cash payment is received and by the customer when the invoice is received", "By the supplier when the cash payment is received and by the customer when the cash payment is made"], correct: 0 },
+        { id: "Q57", text: "When must a business charge sales tax on its sales?", options: ["If it is a limited liability entity", "If it sells goods and services", "If it is registered to account for sales tax", "If it has been trading for more than one year"], correct: 2 },
+        { id: "Q58", text: "Which of the following would be appropriate to write off as an irrecoverable debt?", options: ["A cash sale", "A credit sale made within the last month", "A credit sale over the organisation’s credit limit made in the last week", "A credit sale within the organisation’s credit limit and outstanding for a year"], correct: 3 },
+        { id: "Q59", text: "What is the purpose of an aged receivables’ analysis?", options: ["To monitor the time receivables are outstanding", "To list irrecoverable debts", "To hold receivables temporarily", "To calculate credit limits"], correct: 0 },
+        { id: "Q60", text: "Which of the following entries are used to record an irrecoverable debt?", options: ["Dr Account receivable Cr Irrecoverable debts", "Dr Irrecoverable debts Cr Account receivable", "Dr Profit and loss account Cr Irrecoverable debts", "Dr Irrecoverable debts Cr Profit and loss account"], correct: 1 }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    const questionCountText = document.getElementById("question-count");
+    const completionText = document.getElementById("completion-percentage");
+    const progressBar = document.getElementById("progress-bar");
+    const qBadge = document.getElementById("q-badge");
+    const questionText = document.getElementById("question-text");
+    const optionsList = document.getElementById("options-list");
+    const nextBtn = document.getElementById("next-btn");
+    const quizArea = document.getElementById("quiz-area");
+    const resultsArea = document.getElementById("results-area");
+
+    const letters = ["A", "B", "C", "D"];
+
+    function loadQuestion() {
+        const currentData = quizData[currentQuestionIndex];
+        
+        const progressPercent = Math.round((currentQuestionIndex / quizData.length) * 100);
+        questionCountText.innerText = `Question ${currentQuestionIndex + 1} of ${quizData.length}`;
+        completionText.innerText = `${progressPercent}% complete`;
+        progressBar.style.width = `${progressPercent}%`;
+
+        qBadge.innerText = currentData.id;
+        questionText.innerText = currentData.text;
+        optionsList.innerHTML = "";
+        nextBtn.style.display = "none";
+
+        currentData.options.forEach((option, index) => {
+            const optionDiv = document.createElement("div");
+            optionDiv.className = "option";
+            optionDiv.onclick = () => selectOption(index, optionDiv);
+
+            optionDiv.innerHTML = `
+                <div class="option-letter">${letters[index]}</div>
+                <div class="option-text">${option}</div>
+            `;
+            optionsList.appendChild(optionDiv);
+        });
+    }
+
+    function selectOption(selectedIndex, element) {
+        const currentData = quizData[currentQuestionIndex];
+        const allOptions = document.querySelectorAll(".option");
+
+        allOptions.forEach(opt => opt.classList.add("disabled"));
+
+        if (selectedIndex === currentData.correct) {
+            element.classList.add("selected", "correct");
+            score++;
+        } else {
+            element.classList.add("selected", "incorrect");
+            allOptions[currentData.correct].classList.add("show-correct");
+        }
+
+        nextBtn.style.display = "block";
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        
+        if (currentQuestionIndex < quizData.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        progressBar.style.width = `100%`;
+        completionText.innerText = `100% complete`;
+        quizArea.style.display = "none";
+        resultsArea.style.display = "block";
+        
+        // Update Total Marks & Percentage Display
+        document.getElementById("score").innerText = score;
+        document.getElementById("total").innerText = quizData.length;
+        
+        const percentage = Math.round((score / quizData.length) * 100);
+        document.getElementById("percentage").innerText = percentage;
+    }
+
+    loadQuestion();
+</script>
+
+</body>
+</html>
