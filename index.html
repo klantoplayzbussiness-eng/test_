@@ -323,9 +323,7 @@
 
     <div id="panel-lectures" class="topic-list"></div>
 
-    <div id="panel-attachments" class="topic-list" style="display:none;">
-      <div class="empty-tab">No attachments have been added to this course yet.</div>
-    </div>
+    <div id="panel-attachments" class="topic-list" style="display:none;"></div>
 
     <div id="panel-sessions" class="topic-list" style="display:none;">
       <div class="empty-tab">No developmental sessions have been posted yet.</div>
@@ -423,8 +421,26 @@
     ], materials: [] },
   ];
 
-  const panel = document.getElementById('panel-lectures');
-  topics.forEach((topic) => {
+  const attachments = [
+    { name: "FA2 Mock 1", lectures: [], materials: [
+      { title: "FA2 Mock 1 - Question Paper", url: "https://drive.google.com/file/d/1DWb30zoMesik2Lr7fUpilpNKfQvIfXet/view?usp=drivesdk" },
+      { title: "FA2 Mock 1 - Answers", url: "https://drive.google.com/file/d/1ijT901h8Wr1RnR18g9Wnr9RTC0rr6z8a/view?usp=drivesdk" },
+    ]},
+    { name: "FA2 Mock 2", lectures: [], materials: [
+      { title: "FA2 Mock 2 - Question Paper", url: "https://drive.google.com/file/d/1zxsb1bIzWrk6z4rUyyPDdiBcUZJzVJ0S/view?usp=drivesdk" },
+      { title: "FA2 Mock 2 - Answers", url: "https://drive.google.com/file/d/1-ebStKb0ZHdYSeybl9Cf5X96VSMz59ZC/view?usp=drivesdk" },
+    ]},
+    { name: "FA2 Mock 3", lectures: [], materials: [
+      { title: "FA2 Mock 3 - Question Paper", url: "https://drive.google.com/file/d/1FcPlqHMQZJdjPR9uFTf4nnu2BUzW6nQc/view?usp=drivesdk" },
+      { title: "FA2 Mock 3 - Answers", url: "https://drive.google.com/file/d/1DGit-LkVyz9RPsxoybM2Y3Xv30CbbtGv/view?usp=drivesdk" },
+    ]},
+    { name: "Past Question MCQs", lectures: [], materials: [
+      { title: "Past Question MCQs", url: "https://drive.google.com/file/d/1j3oxXzGuwBwUIA83Iboa-QAulmLJrkjS/view?usp=drivesdk" },
+    ]},
+  ];
+
+  function renderTopicList(panel, dataArr) {
+    dataArr.forEach((topic) => {
     const wrap = document.createElement('div');
     wrap.className = 'topic';
     wrap.innerHTML = `
@@ -478,7 +494,11 @@
       body.style.maxHeight = isOpen ? body.scrollHeight + 'px' : 0;
     });
     panel.appendChild(wrap);
-  });
+    });
+  }
+
+  renderTopicList(document.getElementById('panel-lectures'), topics);
+  renderTopicList(document.getElementById('panel-attachments'), attachments);
 
   // ---- screen navigation ----
   const shelfScreen = document.getElementById('shelfScreen');
