@@ -236,34 +236,6 @@
   }
   .lecture-dur{ color:#6C6C72; font-size:11.5px; }
   .lecture-sub{ color:#9A9AA0; font-size:11.5px; }
-  .lecture-progress{
-    flex-shrink:0;
-    width:76px;
-    display:flex;
-    align-items:center;
-    gap:6px;
-  }
-  .progress-track{
-    flex:1;
-    height:5px;
-    border-radius:3px;
-    background:var(--progress-track);
-    overflow:hidden;
-  }
-  .progress-fill{
-    display:block;
-    height:100%;
-    border-radius:3px;
-    background:linear-gradient(90deg,var(--progress-start),var(--progress-end));
-  }
-  .progress-pct{
-    font-size:10.5px;
-    font-weight:600;
-    color:#8A8A90;
-    width:30px;
-    text-align:right;
-    flex-shrink:0;
-  }
 
   .empty-tab{
     padding:50px 20px;
@@ -393,7 +365,11 @@
       { title: "Errors lecture 3", url: "https://youtu.be/kyXJAX9vJbQ?si=aixEpVxbFCHVxLJP" },
       { title: "Errors lecture 4", url: "https://youtu.be/BwQjKz9DX4c?si=8lnCzCidqPevjsvt" },
       { title: "Errors lecture 5", url: "https://youtu.be/NyPBEcuIdkY?si=KJIZGtYqbCuDvjzO" },
-    ], materials: [] },
+      { title: "Errors lecture 6", url: "https://youtu.be/S234ckDBa50" },
+    ], materials: [
+      { title: "Errors and Suspense Lecture 1 (PDF)", url: "https://drive.google.com/file/d/1dUiegxFSoJ_Qv5Z7If7_Qa3RheLIsD3v/view?usp=drivesdk" },
+      { title: "Errors and Suspense Lecture 2 (PDF)", url: "https://drive.google.com/file/d/1mD9PEXNX0C3-5DAgRdFMH-XtweqaQiBK/view?usp=drivesdk" },
+    ]},
     { name: "Framework", lectures: [
       { title: "Framework lecture 1", url: "https://youtu.be/77aBHwlOyDA?si=0VBdoSG3FqLM9oKD" },
       { title: "Framework lecture 2", url: "https://youtu.be/RibCOH_KzJE?si=xcXnVOXi4kPeSlwa" },
@@ -416,14 +392,28 @@
       { title: "Bank Reconciliation Lecture 4 (PDF)", url: "https://drive.google.com/file/d/18p9i3-KsmjzRIb1HhlAHlx6EDmomNQx5/view?usp=drivesdk" },
     ]},
     { name: "Value Added Tax", lectures: [
-      { title: "VAT basics — input vs output tax", dur: "19 min" },
-      { title: "Accounting for VAT in the ledgers", dur: "22 min" },
-    ], materials: [] },
+      { title: "Value Added Tax lecture 1", url: "https://youtu.be/iG1ruElFSaQ" },
+      { title: "Value Added Tax lecture 2", url: "https://youtu.be/Z_5l8Iig1t4" },
+      { title: "Value Added Tax lecture 3", url: "https://youtu.be/zK2byiZkfJQ" },
+      { title: "Value Added Tax lecture 4", url: "https://youtu.be/QLgS-HWL090" },
+    ], materials: [
+      { title: "Value Added Tax Lecture 1 (PDF)", url: "https://drive.google.com/file/d/1kRHUHCF35fHgs1iYotH-ckoi3m1CU4VC/view?usp=drivesdk" },
+    ]},
+    { name: "Payroll", lectures: [], materials: [
+      { title: "Payroll (PDF)", url: "https://drive.google.com/file/d/1voHn2bPhMzW1jZyBqIv2Am7ikyhBYiDc/view?usp=drivesdk" },
+    ]},
     { name: "Control Accounts", lectures: [
-      { title: "Receivables control account", dur: "23 min" },
-      { title: "Payables control account", dur: "21 min" },
-      { title: "Reconciling control accounts to ledgers", dur: "24 min" },
-    ], materials: [] },
+      { title: "Control Accounts lecture 1", url: "https://youtu.be/_bbS2p0yByY" },
+      { title: "Control Accounts lecture 2", url: "https://youtu.be/jeXTg5uJEzE" },
+      { title: "Control Accounts lecture 3", url: "https://youtu.be/_yKg0GhxzJA" },
+      { title: "Control Accounts lecture 4", url: "https://youtu.be/Wddj2HOQAuQ" },
+    ], materials: [
+      { title: "Control Accounts Lecture 1 (PDF)", url: "https://drive.google.com/file/d/1kDWonYCUZnww6kwQ2qeTx1BWkivwPjKc/view?usp=drivesdk" },
+      { title: "Control Accounts Lecture 2 (PDF)", url: "https://drive.google.com/file/d/1WVjqAP2M0ZiqxAMWQiwIZXkjXCdlpvL1/view?usp=drivesdk" },
+    ]},
+    { name: "Petty Cash", lectures: [], materials: [
+      { title: "Petty Cash (PDF)", url: "https://drive.google.com/file/d/1BAS3TGWo7ccMCI1k0H0jdMxS86PWGp_i/view?usp=drivesdk" },
+    ]},
     { name: "NEW AREA/TOPIC - SUPPLY RECONCILIATION (FROM 18 SEPT 2023)", lectures: [
       { title: "Introduction to supply reconciliation", dur: "20 min" },
       { title: "Worked example", dur: "27 min" },
@@ -464,7 +454,7 @@
       <div class="topic-body">
         <ul class="lecture-list">
           ${topic.lectures.map(l => `
-            <li ${l.url ? `class="clickable" onclick="window.open('${l.url}','_blank')"` : ''}>
+            <li ${l.url ? `class="clickable" data-url="${l.url}"` : ''}>
               <span class="lecture-icon">
                 <svg viewBox="0 0 28 28" fill="none">
                   <circle cx="14" cy="14" r="13" fill="none" stroke="var(--play-red)" stroke-width="1.6"/>
@@ -475,13 +465,9 @@
                 <span class="lecture-title">${l.title}</span>
                 ${l.dur ? `<span class="lecture-dur">${l.dur}</span>` : ''}
               </span>
-              <span class="lecture-progress">
-                <span class="progress-track"><span class="progress-fill" style="width:${l.progress || 0}%"></span></span>
-                <span class="progress-pct">${l.progress || 0}%</span>
-              </span>
             </li>`).join('')}
           ${(topic.materials || []).map(m => `
-            <li ${m.url ? `class="clickable" onclick="window.open('${m.url}','_blank')"` : ''}>
+            <li ${m.url ? `class="clickable" data-url="${m.url}"` : ''}>
               <span class="lecture-icon">
                 <svg viewBox="0 0 28 28" fill="none">
                   <path d="M7 3.5h10l4 4v17a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-20a1 1 0 0 1 1-1z" fill="var(--doc-blue)" opacity="0.14"/>
@@ -505,6 +491,15 @@
       head.setAttribute('aria-expanded', isOpen);
       body.style.maxHeight = isOpen ? body.scrollHeight + 'px' : 0;
     });
+
+    // tapping a lecture/material row opens it in a new tab
+    wrap.querySelectorAll('li[data-url]').forEach(li => {
+      li.addEventListener('click', (e) => {
+        e.stopPropagation();
+        window.open(li.getAttribute('data-url'), '_blank');
+      });
+    });
+
     panel.appendChild(wrap);
     });
   }
