@@ -451,22 +451,15 @@
       <p class="shelf-title">Your courses</p>
       <p class="shelf-sub">Structured lecture library, downloadable resources and mock exams — all in one place.</p>
     </div>
-    <button class="course-btn" id="fa2Card">
-      <span class="course-btn-left">
-        <span class="course-code">ACCA · FIA</span>
-        <span class="course-name">FA2 — Maintaining Financial Records</span>
-        <span class="course-meta" id="fa2CourseMeta"></span>
-      </span>
-      <span class="course-arrow">›</span>
-    </button>
+    <div id="courseList" class="topic-list"></div>
   </div>
 
   <!-- ============ SCREEN 2: COURSE DETAIL ============ -->
   <div id="courseScreen" class="hidden">
     <div class="course-hero">
       <div class="back-row" id="backLink">‹ All courses</div>
-      <p class="course-hero-title">FA2 — Maintaining Financial Records</p>
-      <p class="course-hero-sub">ACCA Foundations in Accountancy</p>
+      <p class="course-hero-title" id="courseHeroTitle"></p>
+      <p class="course-hero-sub" id="courseHeroSub"></p>
       <div class="stats-strip" id="statsStrip"></div>
     </div>
 
@@ -488,12 +481,14 @@
   <footer class="site-footer">
     <div class="footer-inner">
       <p class="good-luck">Good luck with your studies</p>
-      <p class="footer-tagline">Course Portal · ACCA FA2</p>
+      <p class="footer-tagline">Course Portal</p>
     </div>
   </footer>
 
 <script>
-  const topics = [
+  const courses = [
+  { id: "fa2", code: "ACCA · FIA", name: "FA2 — Maintaining Financial Records", tagline: "ACCA Foundations in Accountancy",
+  topics: [
     { name: "Introduction", lectures: [
       { title: "Introduction lecture 1", url: "https://youtu.be/2MM1Iks7H-8?si=kMfhozUr7KVEF07U" },
       { title: "Introduction lecture 2", url: "https://youtu.be/c1PtZirzav8?si=VoZ7X6DOmfxt8FrL" },
@@ -604,9 +599,8 @@
       { title: "Introduction to supply reconciliation", dur: "20 min" },
       { title: "Worked example", dur: "27 min" },
     ], materials: [] },
-  ];
-
-  const attachments = [
+  ],
+  attachments: [
     { name: "FA2 Mock 1", lectures: [], materials: [
       { title: "FA2 Mock 1 - Question Paper", url: "https://drive.google.com/file/d/1DWb30zoMesik2Lr7fUpilpNKfQvIfXet/view?usp=drivesdk" },
       { title: "FA2 Mock 1 - Answers", url: "https://drive.google.com/file/d/1ijT901h8Wr1RnR18g9Wnr9RTC0rr6z8a/view?usp=drivesdk" },
@@ -625,6 +619,69 @@
     { name: "FA2 Notes", lectures: [], materials: [
       { title: "FA2 Notes", url: "https://drive.google.com/file/d/1OXUx2PYNWB4HJsW4NkTNvWVgJvn27eXP/view?usp=drivesdk" },
     ]},
+  ]},
+
+  { id: "f2", code: "ACCA · FIA", name: "F2/MA — Management Accounting", tagline: "ACCA Applied Knowledge",
+  topics: [
+    { name: "Variances", lectures: [
+      { title: "Variances lecture 1", url: "https://youtu.be/IW0pC73Nwjs?si=l4JexBngGw-PHbiG" },
+      { title: "Variances lecture 2", url: "https://youtu.be/nmAlNOrYA_k?si=NWJnZBhOU9Iasb9U" },
+      { title: "Variances lecture 3", url: "https://youtu.be/Khh7NlzTWF8?si=DyXARr1DRAcSIG1J" },
+      { title: "Variances lecture 4", url: "https://youtu.be/Th3QyAPrL-Q?si=VfAGFPYgbI4V7EAw" },
+      { title: "Variances lecture 5", url: "https://youtu.be/rUD2XnURCMI?si=sOXkcGZY9cgfwBql" },
+      { title: "Variances lecture 6", url: "https://youtu.be/XBKx5glddGM?si=ZvCog5InIVy_yVjL" },
+      { title: "Variances lecture 7", url: "https://youtu.be/U6f6S3dlOv0?si=c04QV2Qx6ZMP59fO" },
+      { title: "Variances lecture 8", url: "https://youtu.be/nXrqWsNLWl8?si=qhq_A8Hl5Zhtw3DJ" },
+    ], materials: [] },
+  ],
+  attachments: []},
+
+  { id: "ma1", code: "ACCA · FIA", name: "MA1 — Management Information", tagline: "ACCA Applied Knowledge",
+  topics: [
+    { name: "Cost Accounting", lectures: [
+      { title: "Cost Accounting lecture 1", url: "https://youtu.be/aBZCtHM7yg0?si=oXMtEnk0t_pt-oaG" },
+      { title: "Cost Accounting lecture 2", url: "https://youtu.be/0MXNulVy2_0?si=prei0YnZrnLPcKfJ" },
+      { title: "Cost Accounting lecture 3", url: "https://youtu.be/Wp16f1lLP1E?si=8XVntTJtgyBtSzh-" },
+      { title: "Cost Accounting lecture 4", url: "https://youtu.be/_zUPcusObAQ?si=WRjah-7OWixKBzHF" },
+      { title: "Cost Accounting lecture 5", url: "https://youtu.be/IsC40xVe_n8?si=LO3qfN5dRgXg23Kw" },
+    ], materials: [] },
+    { name: "Overhead", lectures: [
+      { title: "Overhead lecture 1", url: "https://youtu.be/5QhpJ35xdsE?si=5fOqEXRzcb7RuzeQ" },
+      { title: "Overhead lecture 2", url: "https://youtu.be/ZRFaY6hLH1g?si=9ayIQxywKgXZ1kks" },
+      { title: "Overhead lecture 3", url: "https://youtu.be/SfVxT5DehsQ?si=LDCqe0xi6XsETvBx" },
+      { title: "Overhead lecture 4", url: "https://youtu.be/cQ0Z1F_GRrQ?si=-2rtSTQtB3QKN-oA" },
+    ], materials: [] },
+    { name: "Material", lectures: [
+      { title: "Material lecture 1", url: "https://youtu.be/d0aZCtwZqlE?si=NCp6HPrtrOkXHMUK" },
+      { title: "Material lecture 2", url: "https://youtu.be/wCky9SYRRCo?si=RRaJAhjmH-ZUzrqf" },
+    ], materials: [] },
+    { name: "Labour", lectures: [
+      { title: "Labour lecture 1", url: "https://youtu.be/W1FDhOfaQeM?si=7dbMGtRvDSO_nPVs" },
+      { title: "Labour lecture 2", url: "https://youtu.be/F_0RTk4W43Y?si=VBbU1ucPWqTYbWFP" },
+      { title: "Labour lecture 3", url: "https://youtu.be/xir5rrqyrGY?si=C7Bku66kKFHUJbPz" },
+    ], materials: [] },
+    { name: "Process Management", lectures: [
+      { title: "Process Management lecture 1", url: "https://youtu.be/11LbYrmgVeY?si=eSegTmcwDIppF5bE" },
+      { title: "Process Management lecture 2", url: "https://youtu.be/jqVUpQ_kV_Q?si=wDO-HAjeP8Yoy-Rz" },
+      { title: "Process Management lecture 3", url: "https://youtu.be/bRI69fNqp5E?si=W6REhV6RivhAVPCD" },
+      { title: "Process Management lecture 4", url: "https://youtu.be/W-Cf_eQm2-g?si=Hek9dNqsNyRFrVGK" },
+    ], materials: [] },
+    { name: "Job Batch Costing", lectures: [
+      { title: "Job Batch Costing lecture 1", url: "https://youtu.be/nHtTCF9naTQ?si=b90xybeBvCZxj8bP" },
+      { title: "Job Batch Costing lecture 2", url: "https://youtu.be/_CmWfvq47F4?si=5L53SLWOt9EMaPib" },
+      { title: "Job Batch Costing lecture 3", url: "https://youtu.be/EeoOLno0ni4?si=SDqX9BkBs_IP5bmo" },
+    ], materials: [] },
+    { name: "Spreadsheet", lectures: [
+      { title: "Spreadsheet lecture 1", url: "https://youtu.be/3lNith21km4?si=T2sFBmcan3jfPUEb" },
+    ], materials: [] },
+    { name: "Budgeting", lectures: [
+      { title: "Budgeting lecture 2", url: "https://youtu.be/F5AA45TmLek?si=Qu3YGbnxp8ycthNc" },
+      { title: "Budgeting lecture 3", url: "https://youtu.be/XiGA1nAvFNA?si=TQD84ibWkWs66RRu" },
+      { title: "Budgeting lecture 4", url: "https://youtu.be/jZxsCnp_Y40?si=OBfwlPKilTmQq017" },
+      { title: "Budgeting lecture 5", url: "https://youtu.be/z5PTC5NA-4Q?si=c6qxAz3RoDaQxf_V" },
+    ], materials: [] },
+  ],
+  attachments: []},
   ];
 
   function renderTopicList(panel, dataArr) {
@@ -690,46 +747,76 @@
     });
   }
 
-  renderTopicList(document.getElementById('panel-lectures'), topics);
-  renderTopicList(document.getElementById('panel-attachments'), attachments);
-
-  // ---- populate stats strip / course meta from real data ----
-  (function(){
+  // ---- render the course list on the shelf screen ----
+  const courseListEl = document.getElementById('courseList');
+  courses.forEach((course, idx) => {
     let lectureCount = 0, resourceCount = 0;
-    topics.forEach(t => {
+    course.topics.forEach(t => {
       lectureCount += t.lectures.length;
       resourceCount += (t.materials || []).length;
     });
-    const topicCount = topics.length;
-
-    const meta = document.getElementById('fa2CourseMeta');
-    if (meta) meta.textContent = `${topicCount} Topics · ${lectureCount} Lectures`;
-
-    const strip = document.getElementById('statsStrip');
-    if (strip) {
-      const stats = [
-        { num: topicCount, label: 'Topics' },
-        { num: lectureCount, label: 'Lectures' },
-        { num: resourceCount, label: 'Resources' },
-      ];
-      strip.innerHTML = stats.map(s => `
-        <div class="stat-pill">
-          <div class="stat-num">${s.num}</div>
-          <div class="stat-label">${s.label}</div>
-        </div>`).join('');
-    }
-  })();
+    const btn = document.createElement('button');
+    btn.className = 'course-btn';
+    btn.innerHTML = `
+      <span class="course-btn-left">
+        <span class="course-code">${course.code}</span>
+        <span class="course-name">${course.name}</span>
+        <span class="course-meta">${course.topics.length} Topics · ${lectureCount} Lectures</span>
+      </span>
+      <span class="course-arrow">›</span>
+    `;
+    btn.addEventListener('click', () => openCourse(idx));
+    courseListEl.appendChild(btn);
+  });
 
   // ---- screen navigation ----
   const shelfScreen = document.getElementById('shelfScreen');
   const courseScreen = document.getElementById('courseScreen');
   const backLink = document.getElementById('backLink');
+  const panelLectures = document.getElementById('panel-lectures');
+  const panelAttachments = document.getElementById('panel-attachments');
 
-  document.getElementById('fa2Card').addEventListener('click', () => {
+  function openCourse(idx){
+    const course = courses[idx];
+
+    // clear and re-render this course's lectures/attachments
+    panelLectures.innerHTML = '';
+    panelAttachments.innerHTML = '';
+    renderTopicList(panelLectures, course.topics);
+    renderTopicList(panelAttachments, course.attachments || []);
+
+    // hero title/sub
+    document.getElementById('courseHeroTitle').textContent = course.name;
+    document.getElementById('courseHeroSub').textContent = course.tagline || '';
+
+    // stats strip
+    let lectureCount = 0, resourceCount = 0;
+    course.topics.forEach(t => {
+      lectureCount += t.lectures.length;
+      resourceCount += (t.materials || []).length;
+    });
+    const stats = [
+      { num: course.topics.length, label: 'Topics' },
+      { num: lectureCount, label: 'Lectures' },
+      { num: resourceCount, label: 'Resources' },
+    ];
+    document.getElementById('statsStrip').innerHTML = stats.map(s => `
+      <div class="stat-pill">
+        <div class="stat-num">${s.num}</div>
+        <div class="stat-label">${s.label}</div>
+      </div>`).join('');
+
+    // reset to the "Course Lectures" tab each time a course is opened
+    tabButtons.forEach(b => b.classList.remove('active'));
+    document.querySelector('.tab-btn[data-tab="lectures"]').classList.add('active');
+    Object.entries(panels).forEach(([key, el]) => {
+      el.style.display = key === 'lectures' ? 'flex' : 'none';
+    });
+
     shelfScreen.classList.add('hidden');
     courseScreen.classList.remove('hidden');
     window.scrollTo(0,0);
-  });
+  }
 
   backLink.addEventListener('click', () => {
     courseScreen.classList.add('hidden');
@@ -740,8 +827,8 @@
   // ---- tabs ----
   const tabButtons = document.querySelectorAll('.tab-btn');
   const panels = {
-    lectures: document.getElementById('panel-lectures'),
-    attachments: document.getElementById('panel-attachments'),
+    lectures: panelLectures,
+    attachments: panelAttachments,
     sessions: document.getElementById('panel-sessions'),
   };
   tabButtons.forEach(btn => {
