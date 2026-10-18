@@ -3,487 +3,301 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ACCA FA2 — Course Portal</title>
+<title>ACCA Study</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --orange:#FF6E1F;
-    --orange-deep:#E85A0C;
-    --orange-light:#FFB27A;
-    --orange-tint:#FFF1E6;
-    --bg:#FFFFFF;
-    --card-bg:#FFFFFF;
-    --text-dark:#2B2016;
-    --text-muted:#8A7A6D;
-    --text-faint:#B8A99C;
-    --sub-line:#F3E4D6;
-    --shadow-3d:0 6px 0 rgba(232,90,12,0.18), 0 10px 20px rgba(232,90,12,0.10);
-    --shadow-3d-sm:0 4px 0 rgba(232,90,12,0.16), 0 6px 14px rgba(232,90,12,0.08);
-    --shadow-3d-dark:0 6px 0 rgba(0,0,0,0.18), 0 12px 24px rgba(232,90,12,0.20);
-    --play-red:#E5342B;
-    --doc-blue:#2B6CB0;
+    --orange:#F26A1B;
+    --orange-dark:#D95A10;
+    --orange-tint:#FFF3EA;
+    --ink:#1F1F1F;
+    --muted:#8B8B8B;
+    --line:#E7E7E7;
+    --red:#E0302B;
+    --yellow:#F2B01E;
+    --page:#E8ECF2;
+    --navy:#14213D;
+    --navy-2:#22385F;
   }
-
-  *{box-sizing:border-box;}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{margin:0;padding:0;}
   body{
-    background:var(--bg);
-    min-height:100vh;
+    background-color:var(--page);
+    background-image:
+      radial-gradient(rgba(20,33,61,.10) 1px, transparent 1px),
+      linear-gradient(180deg,#EEF1F6 0%,#E3E8F0 100%);
+    background-size:20px 20px,100% 100%;
+    background-attachment:fixed;
     font-family:'Poppins','Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
     -webkit-font-smoothing:antialiased;
-    padding:0 0 50px;
-    color:var(--text-dark);
+    color:var(--ink);
   }
-
-  /* ---------- top brand strip ---------- */
-  .brand-strip{
-    background:#FFFFFF;
-    padding:16px 18px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    border-bottom:2px solid var(--orange-tint);
-  }
-  .brand-mark{
-    width:36px; height:36px;
-    border-radius:14px;
-    background:linear-gradient(145deg,var(--orange-light),var(--orange));
-    display:flex; align-items:center; justify-content:center;
-    font-weight:800;
-    font-size:15px;
-    color:#FFFFFF;
-    flex-shrink:0;
-    box-shadow:0 4px 0 var(--orange-deep);
-  }
-  .brand-text{
-    color:var(--text-dark);
-    font-size:14px;
-    font-weight:700;
-    letter-spacing:.01em;
-  }
-  .brand-text small{
-    display:block;
-    font-size:10.5px;
-    font-weight:600;
-    color:var(--orange);
-    letter-spacing:.06em;
-    margin-top:1px;
-  }
-
-  /* ---------- course picker (hero-style entry) ---------- */
-  #shelfScreen{
-    max-width:640px;
+  #app{
+    max-width:760px;
+    min-height:100vh;
     margin:0 auto;
-    padding:0 14px;
-  }
-  #shelfScreen.hidden{ display:none; }
-
-  .hero-panel{
-    background:linear-gradient(145deg,var(--orange-light) 0%,var(--orange) 100%);
-    border-radius:28px;
-    padding:30px 24px 28px;
-    margin:20px 0 22px;
-    position:relative;
-    overflow:hidden;
-    box-shadow:var(--shadow-3d-dark);
-  }
-  .hero-panel::after{
-    content:"";
-    position:absolute;
-    right:-40px; top:-60px;
-    width:180px; height:180px;
-    border-radius:50%;
-    background:rgba(255,255,255,0.18);
-  }
-  .hero-eyebrow{
-    color:rgba(255,255,255,0.85);
-    font-size:11.5px;
-    font-weight:700;
-    letter-spacing:.12em;
-    text-transform:uppercase;
-    margin:0 0 8px;
-  }
-  .shelf-title{
-    color:#FFFFFF;
-    font-size:24px;
-    font-weight:800;
-    margin:0 0 6px;
-    letter-spacing:-.01em;
-  }
-  .shelf-sub{
-    color:rgba(255,255,255,0.88);
-    font-size:13.5px;
-    margin:0;
-    line-height:1.5;
-    max-width:420px;
-  }
-
-  .course-btn{
-    width:100%;
-    text-align:left;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    background:var(--card-bg);
-    border:2px solid var(--orange-tint);
-    border-radius:24px;
-    padding:22px 24px;
-    cursor:pointer;
-    box-shadow:var(--shadow-3d);
-    font-family:inherit;
-    transition:transform .12s ease, box-shadow .12s ease;
-  }
-  .course-btn:active{
-    transform:translateY(4px);
-    box-shadow:0 2px 0 rgba(232,90,12,0.18), 0 4px 10px rgba(232,90,12,0.10);
-  }
-  .course-btn-left{ display:flex; flex-direction:column; gap:4px; }
-  .course-code{
-    font-size:11px;
-    font-weight:800;
-    letter-spacing:.08em;
-    color:var(--orange);
-    text-transform:uppercase;
-  }
-  .course-name{
-    font-size:17px;
-    font-weight:800;
-    color:var(--text-dark);
-  }
-  .course-meta{
-    font-size:12px;
-    color:var(--text-muted);
-    margin-top:1px;
-  }
-  .course-arrow{
-    color:#FFFFFF;
-    font-size:20px;
-    flex-shrink:0;
-    background:linear-gradient(145deg,var(--orange-light),var(--orange));
-    width:36px; height:36px;
-    border-radius:14px;
-    display:flex; align-items:center; justify-content:center;
-    box-shadow:0 3px 0 var(--orange-deep);
-  }
-
-  /* ---------- course screen ---------- */
-  #courseScreen{ max-width:640px; margin:0 auto; padding:0 14px; }
-  #courseScreen.hidden{ display:none; }
-
-  .course-hero{
-    background:linear-gradient(145deg,var(--orange-light) 0%,var(--orange) 100%);
-    border-radius:28px;
-    margin:18px 0 18px;
-    padding:16px 24px 24px;
-    position:relative;
-    overflow:hidden;
-    box-shadow:var(--shadow-3d-dark);
-  }
-  .course-hero::after{
-    content:"";
-    position:absolute;
-    right:-30px; bottom:-50px;
-    width:160px; height:160px;
-    border-radius:50%;
-    background:rgba(255,255,255,0.16);
-  }
-  .back-row{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    color:rgba(255,255,255,0.85);
-    font-size:12.5px;
-    font-weight:700;
-    padding:2px 0 14px;
-    cursor:pointer;
-    width:fit-content;
-  }
-  .back-row:hover{ color:#FFFFFF; }
-  .course-hero-title{
-    color:#FFFFFF;
-    font-size:21px;
-    font-weight:800;
-    margin:0 0 3px;
-    letter-spacing:-.01em;
-  }
-  .course-hero-sub{
-    color:rgba(255,255,255,0.85);
-    font-size:12px;
-    font-weight:700;
-    letter-spacing:.04em;
-    margin:0 0 16px;
-    text-transform:uppercase;
-  }
-  .stats-strip{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-  }
-  .stat-pill{
-    background:rgba(255,255,255,0.22);
-    border:1.5px solid rgba(255,255,255,0.3);
-    border-radius:16px;
-    padding:10px 14px;
-    flex:1;
-    min-width:88px;
-  }
-  .stat-num{
-    color:#FFFFFF;
-    font-size:18px;
-    font-weight:800;
-    line-height:1.1;
-  }
-  .stat-label{
-    color:rgba(255,255,255,0.85);
-    font-size:10px;
-    font-weight:700;
-    letter-spacing:.04em;
-    text-transform:uppercase;
-    margin-top:2px;
-  }
-
-  .tabbar{
-    background:var(--orange-tint);
-    border-radius:20px;
-    padding:6px;
-    display:flex;
-    gap:4px;
-    align-items:center;
-    margin-bottom:16px;
-    flex-wrap:nowrap;
-    overflow-x:auto;
-  }
-  .tab-btn{
-    font-family:inherit;
-    font-size:12.5px;
-    font-weight:700;
-    border:none;
-    background:none;
-    padding:11px 16px;
-    border-radius:15px;
-    cursor:pointer;
-    color:var(--text-muted);
-    white-space:nowrap;
-    flex-shrink:0;
-  }
-  .tab-btn.active{
-    background:var(--orange);
-    color:#FFFFFF;
-    box-shadow:0 3px 0 var(--orange-deep);
-  }
-
-  .topic-list{ display:flex; flex-direction:column; gap:14px; }
-
-  .topic{
-    background:var(--card-bg);
-    border-radius:22px;
-    border:2px solid var(--orange-tint);
-    box-shadow:var(--shadow-3d-sm);
-    overflow:hidden;
-    transition:box-shadow .15s ease, border-color .15s ease;
-  }
-  .topic.open{
-    border-color:var(--orange-light);
-    box-shadow:0 6px 0 rgba(232,90,12,0.14), 0 12px 22px rgba(232,90,12,0.14);
-  }
-  .topic-head{
-    width:100%;
-    display:flex;
-    align-items:center;
-    gap:14px;
-    padding:18px 20px;
-    background:none;
-    border:none;
-    cursor:pointer;
-    font-family:inherit;
-    text-align:left;
-  }
-  .plus-icon{
-    width:28px;height:28px;
-    border-radius:11px;
-    background:var(--orange-tint);
-    color:var(--orange);
-    flex-shrink:0;
-    display:flex;align-items:center;justify-content:center;
-    position:relative;
-    transition:transform .2s ease, background .2s ease;
-  }
-  .plus-icon::before, .plus-icon::after{
-    content:"";
-    position:absolute;
-    background:var(--orange);
-    border-radius:2px;
-  }
-  .plus-icon::before{ width:12px; height:2px; }
-  .plus-icon::after{ width:2px; height:12px; }
-  .topic.open .plus-icon{
-    transform:rotate(135deg);
-    background:var(--orange);
-  }
-  .topic.open .plus-icon::before, .topic.open .plus-icon::after{ background:#FFFFFF; }
-
-  .topic-name{
-    flex:1;
-    font-size:14.5px;
-    font-weight:700;
-    color:var(--text-dark);
-  }
-  .chevron{
-    width:16px;height:16px;
-    flex-shrink:0;
-    color:var(--text-faint);
-    transition:transform .2s ease;
-  }
-  .topic.open .chevron{ transform:rotate(180deg); color:var(--orange); }
-
-  .topic-body{
-    max-height:0;
-    overflow:hidden;
-    transition:max-height .25s ease;
-  }
-  .lecture-list{
-    list-style:none;
-    margin:0;
-    padding:0 20px 18px 20px;
-  }
-  .lecture-list li{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:11px 0;
-    border-top:1.5px solid var(--sub-line);
-    font-size:13.5px;
-  }
-  .lecture-list li.clickable{
-    cursor:pointer;
-    transition:background 0.15s ease, transform .1s ease;
-    margin:0 -12px;
-    padding:11px 12px;
-    border-radius:14px;
-  }
-  .lecture-list li:not(.clickable){ margin:0; }
-  .lecture-list li.clickable:hover{
-    background:var(--orange-tint);
-  }
-  .lecture-list li.clickable:active{
-    background:var(--orange-tint);
-    transform:scale(0.98);
-  }
-  .lecture-icon{
-    flex-shrink:0;
-    width:30px;
-    height:30px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
     background:#FFFFFF;
-    border-radius:11px;
-    box-shadow:0 2px 6px rgba(0,0,0,0.08);
-  }
-  .lecture-icon svg{ width:20px; height:20px; display:block; }
-  .lecture-info{
-    flex:1;
-    min-width:0;
+    box-shadow:0 0 40px rgba(20,33,61,.16);
     display:flex;
     flex-direction:column;
-    gap:2px;
   }
-  .lecture-title{
-    color:var(--text-dark);
-    font-weight:600;
+  .hidden{display:none !important;}
+
+  /* ---------- orange app bar ---------- */
+  .appbar{
+    position:sticky; top:0; z-index:20;
+    background:var(--orange);
+    color:#FFFFFF;
+    display:flex; align-items:center; gap:12px;
+    padding:14px 16px;
+    box-shadow:0 2px 6px rgba(0,0,0,.15);
+  }
+  .back-btn{
+    background:none; border:none; padding:4px; margin:-4px 0 -4px -6px;
+    color:#FFFFFF; cursor:pointer; display:flex; align-items:center;
+  }
+  .back-btn svg{width:24px;height:24px;display:block;}
+  .brand-mark{
+    width:34px;height:34px;border-radius:50%;
+    background:#FFFFFF;color:var(--orange);
+    font-weight:700;font-size:13px;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .appbar-text{min-width:0;}
+  .appbar-title{
+    font-size:16px;font-weight:700;margin:0;line-height:1.25;
+  }
+  .appbar-sub{
+    font-size:11px;font-weight:500;margin:2px 0 0;opacity:.92;line-height:1.3;
+  }
+
+
+  /* ---------- banners ---------- */
+  .banner{
+    position:relative;
     overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
+    color:#FFFFFF;
+    padding:26px 20px 28px;
+    background:
+      radial-gradient(circle at 88% 12%, rgba(242,106,27,.55) 0%, rgba(242,106,27,0) 46%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,.05) 0 1px, transparent 1px 30px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 30px),
+      linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+    border-bottom:4px solid var(--orange);
   }
-  .lecture-dur{ color:var(--text-muted); font-size:11.5px; }
-  .lecture-sub{ color:var(--orange); font-size:11px; font-weight:700; letter-spacing:.02em; }
+  .banner-art{
+    position:absolute; right:-6px; bottom:-4px;
+    width:170px; height:130px; opacity:.9; pointer-events:none;
+  }
+  .banner-body{position:relative; z-index:1; max-width:calc(100% - 96px); min-width:60%;}
+  .banner-eyebrow{
+    display:inline-block;
+    font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+    color:#FFD2B3; margin:0 0 8px;
+  }
+  .banner-title{
+    font-size:22px; font-weight:700; line-height:1.25; margin:0 0 6px; letter-spacing:-.005em;
+  }
+  .banner-text{
+    font-size:12.5px; line-height:1.55; margin:0; color:rgba(255,255,255,.82); max-width:360px;
+  }
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; position:relative; z-index:1;}
+  .chip{
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.22);
+    border-radius:999px; padding:6px 12px;
+    font-size:11px; font-weight:600; color:#FFFFFF;
+    backdrop-filter:blur(2px);
+  }
+  .chip b{color:#FFB27A; font-weight:700; margin-right:4px;}
+
+  /* ---------- course list (home) ---------- */
+  .section-label{
+    padding:16px 16px 8px;
+    font-size:11.5px;font-weight:700;letter-spacing:.08em;
+    color:var(--muted);text-transform:uppercase;
+  }
+  .course-row{
+    width:100%;text-align:left;background:#FFFFFF;border:none;
+    border-top:1px solid var(--line);
+    padding:16px;display:flex;align-items:center;gap:14px;
+    cursor:pointer;font-family:inherit;
+  }
+  .course-row:last-child{border-bottom:1px solid var(--line);}
+  .course-row:active{background:var(--orange-tint);}
+  .course-dot{
+    width:42px;height:42px;border-radius:50%;
+    background:var(--orange-tint);color:var(--orange);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .course-dot svg{width:22px;height:22px;display:block;}
+  .course-info{flex:1;min-width:0;}
+  .course-code{
+    font-size:10.5px;font-weight:700;letter-spacing:.08em;
+    color:var(--orange);text-transform:uppercase;
+  }
+  .course-name{font-size:14.5px;font-weight:700;color:var(--ink);margin-top:1px;}
+  .course-meta{font-size:11.5px;color:var(--muted);margin-top:2px;}
+  .row-chevron{width:18px;height:18px;color:var(--muted);flex-shrink:0;}
+
+  /* ---------- tabs ---------- */
+  .tabs{
+    display:flex;align-items:center;gap:6px;
+    padding:10px 12px;
+    background:#FFFFFF;
+    border-bottom:1px solid var(--line);
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{
+    font-family:inherit;font-size:12px;font-weight:600;
+    background:none;border:none;cursor:pointer;
+    color:var(--ink);
+    padding:9px 16px;border-radius:999px;
+    white-space:nowrap;flex-shrink:0;
+  }
+  .tab-btn.active{background:#2A2A2A;color:#FFFFFF;}
+
+  /* ---------- topics + lecture rows ---------- */
+  .panel{display:block;}
+  .topic-head{
+    width:100%;background:#FFFFFF;border:none;
+    border-bottom:1px solid var(--line);
+    display:flex;align-items:center;gap:12px;
+    padding:15px 16px;cursor:pointer;
+    font-family:inherit;text-align:left;
+  }
+  .topic-icon{width:20px;height:20px;flex-shrink:0;color:var(--ink);}
+  .topic-icon .v{transition:opacity .15s ease;}
+  .topic.collapsed .topic-icon .v{opacity:1;}
+  .topic:not(.collapsed) .topic-icon .v{opacity:0;}
+  .topic-name{flex:1;font-size:13px;font-weight:700;color:var(--ink);line-height:1.35;}
+  .topic.collapsed .topic-body{display:none;}
+
+  .item{
+    display:flex;align-items:center;gap:12px;
+    padding:12px 16px;
+    border-bottom:1px solid var(--line);
+    background:#FFFFFF;
+  }
+  .item.clickable{cursor:pointer;}
+  .item.clickable:hover,.item.clickable:active{background:var(--orange-tint);}
+  .item-icon{
+    width:24px;height:24px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .item-icon svg{width:12px;height:12px;display:block;}
+  .item-icon.play{background:var(--red);}
+  .item-icon.doc{background:var(--yellow);}
+  .item-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}
+  .item-title{font-size:13px;font-weight:600;color:var(--ink);line-height:1.35;}
+  .item-sub{font-size:11px;font-weight:600;color:var(--orange);}
 
   .empty-tab{
-    padding:46px 20px;
-    text-align:center;
-    color:var(--text-muted);
-    font-size:13.5px;
-    background:var(--card-bg);
-    border-radius:22px;
-    border:2px solid var(--orange-tint);
-    box-shadow:var(--shadow-3d-sm);
+    padding:48px 20px;text-align:center;color:var(--muted);font-size:13px;
   }
 
+  /* ---------- footer ---------- */
   .site-footer{
-    max-width:640px;
-    margin:30px auto 0;
-    padding:0 14px;
-  }
-  .footer-inner{
-    background:linear-gradient(145deg,var(--orange-light) 0%,var(--orange) 100%);
-    border-radius:24px;
-    padding:22px 24px;
+    margin-top:auto;
+    padding:26px 20px 34px;
     text-align:center;
-    box-shadow:var(--shadow-3d-dark);
+    background:var(--orange-tint);
+    border-top:1px solid var(--line);
   }
-  .good-luck{
-    font-size:13.5px;
-    font-weight:700;
-    color:#FFFFFF;
-    margin:0;
-    letter-spacing:.02em;
-  }
-  .footer-tagline{
-    font-size:11px;
-    color:rgba(255,255,255,0.8);
-    margin:5px 0 0;
-  }
+  .good-luck{font-size:13.5px;font-weight:700;color:var(--orange-dark);margin:0;}
+  .pray-line{font-size:12.5px;font-weight:500;color:var(--ink);margin:8px 0 0;line-height:1.5;}
+  .footer-tagline{font-size:11px;color:var(--muted);margin:8px 0 0;}
 </style>
 </head>
 <body>
+<div id="app">
 
-  <div class="brand-strip">
-    <span class="brand-mark">FA</span>
-    <span class="brand-text">Course Portal<small>ACCA · Structured Lecture Library</small></span>
-  </div>
-
-  <!-- ============ SCREEN 1: COURSE PICKER ============ -->
+  <!-- ============ SCREEN 1: COURSE LIST ============ -->
   <div id="shelfScreen">
-    <div class="hero-panel">
-      <p class="hero-eyebrow">Your Learning Hub</p>
-      <p class="shelf-title">Your courses</p>
-      <p class="shelf-sub">Structured lecture library, downloadable resources and mock exams — all in one place.</p>
+    <div class="appbar">
+      <span class="brand-mark">AS</span>
+      <div class="appbar-text">
+        <p class="appbar-title">ACCA Study</p>
+        <p class="appbar-sub">Lectures, study material and mock exams</p>
+      </div>
     </div>
-    <div id="courseList" class="topic-list"></div>
+    <div class="banner">
+      <svg class="banner-art" viewBox="0 0 170 130" fill="none" aria-hidden="true">
+        <rect x="14" y="78" width="20" height="46" rx="4" fill="#FFFFFF" fill-opacity=".16"/>
+        <rect x="44" y="58" width="20" height="66" rx="4" fill="#FFFFFF" fill-opacity=".22"/>
+        <rect x="74" y="66" width="20" height="58" rx="4" fill="#FFFFFF" fill-opacity=".16"/>
+        <rect x="104" y="36" width="20" height="88" rx="4" fill="#F26A1B" fill-opacity=".85"/>
+        <rect x="134" y="22" width="20" height="102" rx="4" fill="#FFFFFF" fill-opacity=".26"/>
+        <path d="M12 70 L54 46 L84 56 L114 26 L152 10" stroke="#FFB27A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="152" cy="10" r="4.5" fill="#FFB27A"/>
+        <circle cx="114" cy="26" r="3.5" fill="#fff"/>
+      </svg>
+      <div class="banner-body">
+        <span class="banner-eyebrow">ACCA · Structured Learning</span>
+        <p class="banner-title">Study smarter. Pass with confidence.</p>
+        <p class="banner-text">Recorded lectures, study material and mock exams for your ACCA papers, organised topic by topic.</p>
+      </div>
+      <div class="chips" id="homeChips"></div>
+    </div>
+    <div class="section-label">Your courses</div>
+    <div id="courseList"></div>
   </div>
 
   <!-- ============ SCREEN 2: COURSE DETAIL ============ -->
   <div id="courseScreen" class="hidden">
-    <div class="course-hero">
-      <div class="back-row" id="backLink">‹ All courses</div>
-      <p class="course-hero-title" id="courseHeroTitle"></p>
-      <p class="course-hero-sub" id="courseHeroSub"></p>
-      <div class="stats-strip" id="statsStrip"></div>
+    <div class="appbar">
+      <button class="back-btn" id="backLink" aria-label="Back to all courses">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="appbar-text">
+        <p class="appbar-title" id="courseHeroTitle"></p>
+        <p class="appbar-sub" id="courseHeroSub"></p>
+      </div>
     </div>
 
-    <div class="tabbar">
+    <div class="banner">
+      <svg class="banner-art" viewBox="0 0 170 130" fill="none" aria-hidden="true">
+        <rect x="14" y="78" width="20" height="46" rx="4" fill="#FFFFFF" fill-opacity=".16"/>
+        <rect x="44" y="58" width="20" height="66" rx="4" fill="#FFFFFF" fill-opacity=".22"/>
+        <rect x="74" y="66" width="20" height="58" rx="4" fill="#FFFFFF" fill-opacity=".16"/>
+        <rect x="104" y="36" width="20" height="88" rx="4" fill="#F26A1B" fill-opacity=".85"/>
+        <rect x="134" y="22" width="20" height="102" rx="4" fill="#FFFFFF" fill-opacity=".26"/>
+        <path d="M12 70 L54 46 L84 56 L114 26 L152 10" stroke="#FFB27A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="152" cy="10" r="4.5" fill="#FFB27A"/>
+        <circle cx="114" cy="26" r="3.5" fill="#fff"/>
+      </svg>
+      <div class="banner-body">
+        <span class="banner-eyebrow" id="courseBannerEyebrow"></span>
+        <p class="banner-title" id="courseBannerTitle"></p>
+        <p class="banner-text" id="courseBannerText"></p>
+      </div>
+      <div class="chips" id="courseChips"></div>
+    </div>
+
+    <div class="tabs">
       <button class="tab-btn active" data-tab="lectures">Course Lectures</button>
       <button class="tab-btn" data-tab="attachments">Course Attachments</button>
       <button class="tab-btn" data-tab="sessions">Developmental sessions (not related to course)</button>
     </div>
 
-    <div id="panel-lectures" class="topic-list"></div>
-
-    <div id="panel-attachments" class="topic-list" style="display:none;"></div>
-
-    <div id="panel-sessions" class="topic-list" style="display:none;">
+    <div id="panel-lectures" class="panel"></div>
+    <div id="panel-attachments" class="panel hidden"></div>
+    <div id="panel-sessions" class="panel hidden">
       <div class="empty-tab">No developmental sessions have been posted yet.</div>
     </div>
   </div>
 
   <footer class="site-footer">
-    <div class="footer-inner">
-      <p class="good-luck">Good luck with your studies</p>
-      <p class="footer-tagline">Course Portal</p>
-    </div>
+    <p class="good-luck">Good luck with your studies</p>
+    <p class="pray-line">Please remember me and everyone else in your prayers 🤲</p>
+    <p class="footer-tagline">ACCA Study</p>
   </footer>
+
+</div>
 
 <script>
   const courses = [
@@ -509,8 +323,9 @@
     ], materials: [{ title: "Incomplete Records Questions (PDF)", url: "https://drive.google.com/file/d/1lixDuU09oaCV_cJDAWMjQUNiicaN0-EV/view?usp=drivesdk" }]},
     { name: "Bad Debts", lectures: [
       { title: "Bad Debts lecture 1", url: "https://youtu.be/9CXx_balWn0?si=6Tcm-OXYfSGIdMLo" },
-      { title: "Bad Debts lecture 2", url: "https://youtu.be/mcLfJsguZIE?si=gt0c9NRBgBGWi_4Y" },
-      { title: "Bad Debts lecture 3", url: "https://youtu.be/pJvVp2OhD8M?si=SZdVjNdfuubJRmZ4" },
+      /* lectures 2 and 3 were swapped: the old lecture 3 link is now lecture 2, and vice versa */
+      { title: "Bad Debts lecture 2", url: "https://youtu.be/pJvVp2OhD8M?si=SZdVjNdfuubJRmZ4" },
+      { title: "Bad Debts lecture 3", url: "https://youtu.be/mcLfJsguZIE?si=gt0c9NRBgBGWi_4Y" },
       { title: "Bad Debts lecture 4", url: "https://youtu.be/knBfz9Kwq9o?si=sHnvTaSbPZrg9X46" },
     ], materials: [{ title: "Bad Debts Questions (PDF)", url: "https://drive.google.com/file/d/18RB0Ty6KClX7JlT4sKycmKza66-_-23w/view?usp=drivesdk" }]},
     { name: "Accruals and Prepayments", lectures: [
@@ -619,6 +434,9 @@
     { name: "FA2 Notes", lectures: [], materials: [
       { title: "FA2 Notes", url: "https://drive.google.com/file/d/1OXUx2PYNWB4HJsW4NkTNvWVgJvn27eXP/view?usp=drivesdk" },
     ]},
+    { name: "FA2 MHA Book Questions", lectures: [], materials: [
+      { title: "FA2 MHA Book Questions", url: "https://drive.google.com/file/d/1_Y7g1ZkAXrong9u-Yg4lu4EVZRxEs_0b/view?usp=drivesdk" },
+    ]},
   ]},
 
   { id: "f2", code: "ACCA · FIA", name: "F2/MA — Management Accounting", tagline: "ACCA Applied Knowledge",
@@ -634,7 +452,47 @@
       { title: "Variances lecture 8", url: "https://youtu.be/nXrqWsNLWl8?si=qhq_A8Hl5Zhtw3DJ" },
     ], materials: [] },
   ],
-  attachments: []},
+  attachments: [
+    { name: "Alternative Costing", lectures: [], materials: [
+      { title: "Alternative Costing - MHA Notes", url: "https://drive.google.com/file/d/1fv9ChPD4pA7_Rr0M-zYEwdaelzfl0ARW/view?usp=drivesdk" },
+    ]},
+    { name: "Performance Measurement", lectures: [], materials: [
+      { title: "Performance Measurement - MHA Notes", url: "https://drive.google.com/file/d/1Tc1JcnZ5M3ijAGrd-9Ax6AIXjlKWtgpd/view?usp=drivesdk" },
+    ]},
+    { name: "Budgeting", lectures: [], materials: [
+      { title: "Budgeting - MHA Notes", url: "https://drive.google.com/file/d/1GLdW177Lj_y99AQhydqB2Npjz-vre4VB/view?usp=drivesdk" },
+    ]},
+    { name: "Absorption and Marginal Costing", lectures: [], materials: [
+      { title: "Absorption and Marginal Costing - MHA Notes", url: "https://drive.google.com/file/d/1jxQztWwTNDPQhijWzq5OdGtTB4sT3RtA/view?usp=drivesdk" },
+    ]},
+    { name: "Overheads", lectures: [], materials: [
+      { title: "Overheads - MHA Notes", url: "https://drive.google.com/file/d/1KP-15TJ2ACq46QUO5G9cItijTnEnQOaj/view?usp=drivesdk" },
+    ]},
+    { name: "Cost Classification and Measurement", lectures: [], materials: [
+      { title: "Cost Classification and Measurement - MHA Notes", url: "https://drive.google.com/file/d/1z8xpJA9vpN04YtY1tbp-qqaSoqQIaRHp/view?usp=drivesdk" },
+    ]},
+    { name: "Material", lectures: [], materials: [
+      { title: "Material - MHA Notes", url: "https://drive.google.com/file/d/1b_K9lazsYYoqDTYFwEVzOPfqwygPh5fC/view?usp=drivesdk" },
+    ]},
+    { name: "Labour", lectures: [], materials: [
+      { title: "Labour - MHA Notes", url: "https://drive.google.com/file/d/1P8NAty_UtWQ5N3crCX3Mqh3HCO26_8C2/view?usp=drivesdk" },
+    ]},
+    { name: "Process Costing", lectures: [], materials: [
+      { title: "Process Costing - MHA Notes", url: "https://drive.google.com/file/d/1h7MT6foPXwLMCd2YWdVrHJ7x4Jy_pyVq/view?usp=drivesdk" },
+    ]},
+    { name: "MTQ Analysis", lectures: [], materials: [
+      { title: "MTQ Analysis", url: "https://drive.google.com/file/d/1DLoC2_cqPF84dscZ8297aio6EpUbXzV8/view?usp=drivesdk" },
+    ]},
+    { name: "New Syllabus Addition", lectures: [], materials: [
+      { title: "New Syllabus Addition", url: "https://drive.google.com/file/d/1mBpX7b5RV2JGiH5AEAZcve59VWLZAfd0/view?usp=drivesdk" },
+    ]},
+    { name: "Summarizing and Analysing Data", lectures: [], materials: [
+      { title: "Summarizing and Analysing Data", url: "https://drive.google.com/file/d/1AMAnqX6LBXaZ5725srmk-1gNAkpD0kSL/view?usp=drivesdk" },
+    ]},
+    { name: "Report Writing with Process Emails", lectures: [], materials: [
+      { title: "Report Writing with Process Emails", url: "https://drive.google.com/file/d/1ax_P-gkFUJXb36C_FVBcC1DPfKwf13aC/view?usp=drivesdk" },
+    ]},
+  ]},
 
   { id: "ma1", code: "ACCA · FIA", name: "MA1 — Management Information", tagline: "ACCA Applied Knowledge",
   topics: [
@@ -684,90 +542,132 @@
   attachments: []},
   ];
 
+  /* MA2 is built from the MA1 topics + F2/MA Variances, plus extra Budgeting lectures (6-9 and 14).
+     To add or change MA2-only items, edit the code below. */
+  (function(){
+    const ma1 = courses.find(c => c.id === "ma1");
+    const f2  = courses.find(c => c.id === "f2");
+    const clone = o => JSON.parse(JSON.stringify(o));
+
+    const topics = clone(ma1.topics);
+
+    // extra Budgeting lectures for MA2
+    const budgeting = topics.find(t => t.name === "Budgeting");
+    budgeting.lectures.push(
+      { title: "Budgeting lecture 6",  url: "https://youtu.be/3B76HeuqopU?si=qI206p-TUG2iSMfo" },
+      { title: "Budgeting lecture 7",  url: "https://youtu.be/UH_nFz5Vi0Y?si=FL7UtaCB8jzDt6oX" },
+      { title: "Budgeting lecture 8",  url: "https://youtu.be/Y0b73K0n49I?si=w4adr1HvP78tn1dD" },
+      { title: "Budgeting lecture 9",  url: "https://youtu.be/6ORrPbc9af8?si=vUGUxCUuzBh7hKa-" },
+      { title: "Budgeting lecture 14 (Spreadsheet Budgeting)", url: "https://youtu.be/3lNith21km4?si=ndVhhikbyu-GfiVW" }
+    );
+
+    // Variances classes, same lectures as F2/MA
+    topics.push(clone(f2.topics.find(t => t.name === "Variances")));
+
+    courses.push({
+      id: "ma2", code: "ACCA · FIA", name: "MA2 — Managing Costs and Finances", tagline: "ACCA Applied Knowledge",
+      topics: topics,
+      attachments: []
+    });
+  })();
+
+  const PLAY_SVG = '<svg viewBox="0 0 12 12" fill="none"><path d="M3.5 2v8l6.5-4-6.5-4z" fill="#fff"/></svg>';
+  const DOC_SVG  = '<svg viewBox="0 0 12 12" fill="none"><path d="M3 1.5h4l2 2v7H3z" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/><path d="M4.5 6h3M4.5 8h3" stroke="#fff" stroke-width="1" stroke-linecap="round"/></svg>';
+  const TOPIC_SVG = '<svg class="topic-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8.6" stroke="currentColor" stroke-width="1.5"/><path d="M6 10h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path class="v" d="M10 6v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+
+  function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
   function renderTopicList(panel, dataArr) {
+    if (!dataArr.length) {
+      panel.innerHTML = '<div class="empty-tab">Nothing has been added here yet.</div>';
+      return;
+    }
     dataArr.forEach((topic) => {
-    const wrap = document.createElement('div');
-    wrap.className = 'topic';
-    wrap.innerHTML = `
-      <button class="topic-head" aria-expanded="false">
-        <span class="plus-icon"></span>
-        <span class="topic-name">${topic.name}</span>
-        <svg class="chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <div class="topic-body">
-        <ul class="lecture-list">
-          ${topic.lectures.map(l => `
-            <li ${l.url ? `class="clickable" data-url="${l.url}"` : ''}>
-              <span class="lecture-icon">
-                <svg viewBox="0 0 28 28" fill="none">
-                  <circle cx="14" cy="14" r="13" fill="none" stroke="var(--play-red)" stroke-width="1.6"/>
-                  <path d="M11.5 9.2v9.6l8-4.8-8-4.8z" fill="var(--play-red)"/>
-                </svg>
-              </span>
-              <span class="lecture-info">
-                <span class="lecture-title">${l.title}</span>
-                ${l.dur ? `<span class="lecture-dur">${l.dur}</span>` : ''}
-              </span>
-            </li>`).join('')}
-          ${(topic.materials || []).map(m => `
-            <li ${m.url ? `class="clickable" data-url="${m.url}"` : ''}>
-              <span class="lecture-icon">
-                <svg viewBox="0 0 28 28" fill="none">
-                  <path d="M7 3.5h10l4 4v17a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-20a1 1 0 0 1 1-1z" fill="var(--doc-blue)" opacity="0.14"/>
-                  <path d="M7 3.5h10l4 4v17a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-20a1 1 0 0 1 1-1z" fill="none" stroke="var(--doc-blue)" stroke-width="1.5" stroke-linejoin="round"/>
-                  <path d="M17 3.5v4h4" fill="none" stroke="var(--doc-blue)" stroke-width="1.5" stroke-linejoin="round"/>
-                  <path d="M9.5 14h9M9.5 17.5h9M9.5 10.5h5" stroke="var(--doc-blue)" stroke-width="1.3" stroke-linecap="round"/>
-                </svg>
-              </span>
-              <span class="lecture-info">
-                <span class="lecture-title">${m.title}</span>
-                <span class="lecture-sub">Study Material</span>
-              </span>
-            </li>`).join('')}
-        </ul>
-      </div>
-    `;
-    const head = wrap.querySelector('.topic-head');
-    const body = wrap.querySelector('.topic-body');
-    head.addEventListener('click', () => {
-      const isOpen = wrap.classList.toggle('open');
-      head.setAttribute('aria-expanded', isOpen);
-      body.style.maxHeight = isOpen ? body.scrollHeight + 'px' : 0;
-    });
+      const wrap = document.createElement('div');
+      wrap.className = 'topic';
 
-    // tapping a lecture/material row opens it in a new tab
-    wrap.querySelectorAll('li[data-url]').forEach(li => {
-      li.addEventListener('click', (e) => {
-        e.stopPropagation();
-        window.open(li.getAttribute('data-url'), '_blank');
+      const lectureRows = (topic.lectures || []).map(l => `
+        <div class="item${l.url ? ' clickable' : ''}" ${l.url ? `data-url="${esc(l.url)}"` : ''}>
+          <span class="item-icon play">${PLAY_SVG}</span>
+          <span class="item-info">
+            <span class="item-title">${esc(l.title)}</span>
+            ${l.dur ? `<span class="item-sub">${esc(l.dur)}</span>` : ''}
+          </span>
+        </div>`).join('');
+
+      const materialRows = (topic.materials || []).map(m => `
+        <div class="item${m.url ? ' clickable' : ''}" ${m.url ? `data-url="${esc(m.url)}"` : ''}>
+          <span class="item-icon doc">${DOC_SVG}</span>
+          <span class="item-info">
+            <span class="item-title">${esc(m.title)}</span>
+            <span class="item-sub">Study Material</span>
+          </span>
+        </div>`).join('');
+
+      wrap.innerHTML = `
+        <button class="topic-head" aria-expanded="true">
+          ${TOPIC_SVG}
+          <span class="topic-name">${esc(topic.name)}</span>
+        </button>
+        <div class="topic-body">${lectureRows}${materialRows}</div>
+      `;
+
+      const head = wrap.querySelector('.topic-head');
+      head.addEventListener('click', () => {
+        const collapsed = wrap.classList.toggle('collapsed');
+        head.setAttribute('aria-expanded', String(!collapsed));
       });
-    });
 
-    panel.appendChild(wrap);
+      // tapping a lecture/material row opens it in a new tab
+      wrap.querySelectorAll('.item[data-url]').forEach(row => {
+        row.addEventListener('click', () => {
+          window.open(row.getAttribute('data-url'), '_blank');
+        });
+      });
+
+      panel.appendChild(wrap);
     });
   }
 
-  // ---- render the course list on the shelf screen ----
+  function countStats(course){
+    let lectures = 0, resources = 0;
+    course.topics.forEach(t => {
+      lectures += (t.lectures || []).length;
+      resources += (t.materials || []).length;
+    });
+    return { lectures, resources };
+  }
+
+  // ---- render the course list on the home screen ----
   const courseListEl = document.getElementById('courseList');
   courses.forEach((course, idx) => {
-    let lectureCount = 0, resourceCount = 0;
-    course.topics.forEach(t => {
-      lectureCount += t.lectures.length;
-      resourceCount += (t.materials || []).length;
-    });
+    const st = countStats(course);
     const btn = document.createElement('button');
-    btn.className = 'course-btn';
+    btn.className = 'course-row';
     btn.innerHTML = `
-      <span class="course-btn-left">
-        <span class="course-code">${course.code}</span>
-        <span class="course-name">${course.name}</span>
-        <span class="course-meta">${course.topics.length} Topics · ${lectureCount} Lectures</span>
+      <span class="course-dot">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v15H5.5A1.5 1.5 0 0 0 4 20.5v-15zM20 5.5A1.5 1.5 0 0 0 18.5 4H13v15h5.5a1.5 1.5 0 0 1 1.5 1.5v-15z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
       </span>
-      <span class="course-arrow">›</span>
+      <span class="course-info">
+        <div class="course-code">${esc(course.code)}</div>
+        <div class="course-name">${esc(course.name)}</div>
+        <div class="course-meta">${course.topics.length} Topics · ${st.lectures} Lectures</div>
+      </span>
+      <svg class="row-chevron" viewBox="0 0 20 20" fill="none"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
     `;
     btn.addEventListener('click', () => openCourse(idx));
     courseListEl.appendChild(btn);
   });
+
+  // ---- home banner chips ----
+  (function(){
+    let totalLectures = 0, totalResources = 0;
+    courses.forEach(c => { const st = countStats(c); totalLectures += st.lectures; totalResources += st.resources; });
+    document.getElementById('homeChips').innerHTML = `
+      <span class="chip"><b>${courses.length}</b>Courses</span>
+      <span class="chip"><b>${totalLectures}</b>Lectures</span>
+      <span class="chip"><b>${totalResources}</b>Resources</span>`;
+  })();
 
   // ---- screen navigation ----
   const shelfScreen = document.getElementById('shelfScreen');
@@ -775,44 +675,40 @@
   const backLink = document.getElementById('backLink');
   const panelLectures = document.getElementById('panel-lectures');
   const panelAttachments = document.getElementById('panel-attachments');
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  const panels = {
+    lectures: panelLectures,
+    attachments: panelAttachments,
+    sessions: document.getElementById('panel-sessions'),
+  };
+
+  function showTab(name){
+    tabButtons.forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+    Object.entries(panels).forEach(([key, el]) => el.classList.toggle('hidden', key !== name));
+  }
 
   function openCourse(idx){
     const course = courses[idx];
-
-    // clear and re-render this course's lectures/attachments
     panelLectures.innerHTML = '';
     panelAttachments.innerHTML = '';
     renderTopicList(panelLectures, course.topics);
     renderTopicList(panelAttachments, course.attachments || []);
 
-    // hero title/sub
+    const st = countStats(course);
     document.getElementById('courseHeroTitle').textContent = course.name;
     document.getElementById('courseHeroSub').textContent = course.tagline || '';
 
-    // stats strip
-    let lectureCount = 0, resourceCount = 0;
-    course.topics.forEach(t => {
-      lectureCount += t.lectures.length;
-      resourceCount += (t.materials || []).length;
-    });
-    const stats = [
-      { num: course.topics.length, label: 'Topics' },
-      { num: lectureCount, label: 'Lectures' },
-      { num: resourceCount, label: 'Resources' },
-    ];
-    document.getElementById('statsStrip').innerHTML = stats.map(s => `
-      <div class="stat-pill">
-        <div class="stat-num">${s.num}</div>
-        <div class="stat-label">${s.label}</div>
-      </div>`).join('');
+    // course banner
+    const attachCount = (course.attachments || []).reduce((n, t) => n + (t.materials || []).length, 0);
+    document.getElementById('courseBannerEyebrow').textContent = course.code;
+    document.getElementById('courseBannerTitle').textContent = course.name;
+    document.getElementById('courseBannerText').textContent = course.tagline || '';
+    document.getElementById('courseChips').innerHTML = `
+      <span class="chip"><b>${course.topics.length}</b>Topics</span>
+      <span class="chip"><b>${st.lectures}</b>Lectures</span>
+      <span class="chip"><b>${st.resources + attachCount}</b>Files</span>`;
 
-    // reset to the "Course Lectures" tab each time a course is opened
-    tabButtons.forEach(b => b.classList.remove('active'));
-    document.querySelector('.tab-btn[data-tab="lectures"]').classList.add('active');
-    Object.entries(panels).forEach(([key, el]) => {
-      el.style.display = key === 'lectures' ? 'flex' : 'none';
-    });
-
+    showTab('lectures');
     shelfScreen.classList.add('hidden');
     courseScreen.classList.remove('hidden');
     window.scrollTo(0,0);
@@ -824,22 +720,7 @@
     window.scrollTo(0,0);
   });
 
-  // ---- tabs ----
-  const tabButtons = document.querySelectorAll('.tab-btn');
-  const panels = {
-    lectures: panelLectures,
-    attachments: panelAttachments,
-    sessions: document.getElementById('panel-sessions'),
-  };
-  tabButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      tabButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      Object.entries(panels).forEach(([key, el]) => {
-        el.style.display = key === btn.dataset.tab ? 'flex' : 'none';
-      });
-    });
-  });
+  tabButtons.forEach(btn => btn.addEventListener('click', () => showTab(btn.dataset.tab)));
 </script>
 </body>
 </html>
