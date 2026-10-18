@@ -183,6 +183,8 @@
   .topic:not(.collapsed) .topic-icon .v{opacity:0;}
   .topic-name{flex:1;font-size:13px;font-weight:700;color:var(--ink);line-height:1.35;}
   .topic.collapsed .topic-body{display:none;}
+  .topic-chev{width:18px;height:18px;flex-shrink:0;color:var(--muted);transition:transform .2s ease;}
+  .topic:not(.collapsed) .topic-chev{transform:rotate(180deg);color:var(--orange);}
 
   .item{
     display:flex;align-items:center;gap:12px;
@@ -274,8 +276,7 @@
 
     .panel{ padding:28px var(--gutter) 48px; }
     .panel:not(.hidden){
-      display:grid; grid-template-columns:repeat(2, minmax(0,1fr));
-      gap:20px 22px; align-items:start;
+      display:flex; flex-direction:column; gap:14px;
     }
     .topic{
       background:#FFFFFF; border:1px solid var(--line); border-radius:16px;
@@ -289,7 +290,7 @@
     .item:last-child{ border-bottom:none; }
     .item-title{ font-size:13.5px; }
     .item-sub{ font-size:11.5px; }
-    .empty-tab{ grid-column:1 / -1; background:#FFFFFF; border:1px solid var(--line); border-radius:16px; }
+    .empty-tab{ width:100%; background:#FFFFFF; border:1px solid var(--line); border-radius:16px; }
 
     .site-footer{ padding:34px var(--gutter) 40px; }
     .good-luck{ font-size:15px; }
@@ -297,7 +298,6 @@
   }
 
   @media (min-width:1400px){
-    .panel:not(.hidden){ grid-template-columns:repeat(3, minmax(0,1fr)); }
   }
 
   /* tablets: single wide column, a bit more breathing room */
@@ -758,14 +758,15 @@
           </span>
         </div>`).join('');
 
-      // desktop: topics start collapsed so the grid reads left-to-right in clean rows
-      const startCollapsed = window.matchMedia('(min-width:900px)').matches;
-      if (startCollapsed) wrap.classList.add('collapsed');
+      // topics start collapsed: one topic per line, tap to open
+      const startCollapsed = true;
+      wrap.classList.add('collapsed');
 
       wrap.innerHTML = `
         <button class="topic-head" aria-expanded="${!startCollapsed}">
           ${TOPIC_SVG}
           <span class="topic-name">${esc(topic.name)}</span>
+          <svg class="topic-chev" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="topic-body">${lectureRows}${materialRows}</div>
       `;
