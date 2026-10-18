@@ -211,6 +211,103 @@
   .good-luck{font-size:13.5px;font-weight:700;color:var(--orange-dark);margin:0;}
   .pray-line{font-size:12.5px;font-weight:500;color:var(--ink);margin:8px 0 0;line-height:1.5;}
   .footer-tagline{font-size:11px;color:var(--muted);margin:8px 0 0;}
+
+  /* =====================================================
+     RESPONSIVE: full-screen desktop layout (mobile stays as above)
+     ===================================================== */
+  @media (min-width:900px){
+    :root{ --gutter:max(32px, calc((100vw - 1240px) / 2)); }
+    body{ background-attachment:fixed; }
+    #app{ max-width:none; background:transparent; box-shadow:none; }
+
+    .appbar{ padding:16px var(--gutter); gap:16px; }
+    .brand-mark{ width:40px; height:40px; font-size:14px; }
+    .appbar-title{ font-size:19px; }
+    .appbar-sub{ font-size:12.5px; }
+    .back-btn{ margin:-4px 0 -4px -8px; }
+    .back-btn svg{ width:28px; height:28px; }
+
+    /* banners */
+    .banner{ padding:56px var(--gutter) 58px; }
+    .banner-art{ width:380px; height:290px; right:var(--gutter); bottom:-6px; }
+    .banner-body{ max-width:640px; min-width:0; }
+    .banner-eyebrow{ font-size:12px; margin-bottom:12px; }
+    .banner-title{ font-size:40px; line-height:1.18; margin-bottom:12px; }
+    .banner-text{ font-size:15px; max-width:520px; }
+    .chips{ margin-top:26px; gap:10px; }
+    .chip{ font-size:13px; padding:9px 18px; }
+
+    /* home: course cards */
+    .section-label{ padding:34px var(--gutter) 14px; font-size:13px; }
+    #courseList{
+      display:grid; grid-template-columns:repeat(2, 1fr); gap:20px;
+      padding:0 var(--gutter) 44px;
+    }
+    .course-row{
+      border:1px solid var(--line); border-radius:16px;
+      padding:24px; gap:18px;
+      box-shadow:0 2px 10px rgba(20,33,61,.07);
+      transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .course-row:last-child{ border-bottom:1px solid var(--line); }
+    .course-row:hover{
+      transform:translateY(-3px); border-color:var(--orange);
+      box-shadow:0 10px 24px rgba(20,33,61,.14);
+    }
+    .course-dot{ width:54px; height:54px; }
+    .course-dot svg{ width:26px; height:26px; }
+    .course-code{ font-size:11.5px; }
+    .course-name{ font-size:17px; }
+    .course-meta{ font-size:12.5px; }
+
+    /* course screen: tabs bar + two-column topic cards */
+    .tabs{ padding:12px var(--gutter); gap:10px; position:sticky; top:72px; z-index:15; box-shadow:0 2px 8px rgba(20,33,61,.06); }
+    .tab-btn{ font-size:13.5px; padding:11px 22px; }
+    .tab-btn:not(.active):hover{ background:var(--orange-tint); color:var(--orange-dark); }
+
+    .panel{ padding:28px var(--gutter) 48px; }
+    .panel:not(.hidden){
+      display:block; column-count:2; column-gap:22px;
+    }
+    .topic{
+      break-inside:avoid; -webkit-column-break-inside:avoid; margin-bottom:22px;
+      background:#FFFFFF; border:1px solid var(--line); border-radius:16px;
+      overflow:hidden; box-shadow:0 2px 10px rgba(20,33,61,.06);
+    }
+    .topic-head{ padding:18px 20px; background:#FBFCFE; border-bottom:1px solid var(--line); }
+    .topic-head:hover{ background:var(--orange-tint); }
+    .topic.collapsed .topic-head{ border-bottom:none; }
+    .topic-name{ font-size:14.5px; }
+    .item{ padding:13px 20px; }
+    .item:last-child{ border-bottom:none; }
+    .item-title{ font-size:13.5px; }
+    .item-sub{ font-size:11.5px; }
+    .empty-tab{ column-span:all; background:#FFFFFF; border:1px solid var(--line); border-radius:16px; }
+
+    .site-footer{ padding:34px var(--gutter) 40px; }
+    .good-luck{ font-size:15px; }
+    .pray-line{ font-size:13.5px; }
+  }
+
+  @media (min-width:1400px){
+    .panel:not(.hidden){ column-count:3; }
+  }
+
+  /* tablets: single wide column, a bit more breathing room */
+  @media (min-width:600px) and (max-width:899px){
+    .banner{ padding:36px 28px 38px; }
+    .banner-title{ font-size:28px; }
+    .banner-text{ font-size:14px; }
+    .banner-art{ width:220px; height:168px; }
+  }
+
+  /* small phones */
+  @media (max-width:380px){
+    .banner-title{ font-size:19px; }
+    .banner-body{ max-width:100%; }
+    .banner-art{ opacity:.35; }
+    .tab-btn{ padding:9px 13px; }
+  }
 </style>
 </head>
 <body>
