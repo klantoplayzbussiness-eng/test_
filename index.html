@@ -80,22 +80,29 @@
     overflow:hidden;
     color:#FFFFFF;
     padding:26px 20px 28px;
+    --accent:#F26A1B; --soft:#FFB27A; --glow:242,106,27;
     background:
-      radial-gradient(circle at 88% 12%, rgba(242,106,27,.55) 0%, rgba(242,106,27,0) 46%),
-      repeating-linear-gradient(0deg, rgba(255,255,255,.05) 0 1px, transparent 1px 30px),
-      repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 30px),
-      linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
-    border-bottom:4px solid var(--orange);
+      radial-gradient(circle at 86% 18%, rgba(var(--glow),.55) 0%, rgba(var(--glow),0) 48%),
+      radial-gradient(circle at 4% 104%, rgba(56,120,255,.32) 0%, rgba(56,120,255,0) 46%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,.045) 0 1px, transparent 1px 30px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,.045) 0 1px, transparent 1px 30px),
+      linear-gradient(135deg, #0F1A33 0%, var(--navy-2) 100%);
+    border-bottom:4px solid var(--accent);
   }
   .banner-art{
-    position:absolute; right:-6px; bottom:-4px;
-    width:170px; height:130px; opacity:.9; pointer-events:none;
+    position:absolute; right:-34px; bottom:-8px;
+    width:215px; height:167px; opacity:.8; pointer-events:none;
   }
+  @keyframes floaty{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-7px);} }
+  .banner-art .fa{ animation:floaty 7s ease-in-out infinite; }
+  .banner-art .fb{ animation:floaty 6s ease-in-out -2s infinite; }
+  .banner-art .fc{ animation:floaty 5s ease-in-out -1s infinite; }
+  @media (prefers-reduced-motion:reduce){ .banner-art .fa,.banner-art .fb,.banner-art .fc{ animation:none; } }
   .banner-body{position:relative; z-index:1; max-width:calc(100% - 96px); min-width:60%;}
   .banner-eyebrow{
     display:inline-block;
     font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
-    color:#FFD2B3; margin:0 0 8px;
+    color:var(--soft); margin:0 0 8px;
   }
   .banner-title{
     font-size:22px; font-weight:700; line-height:1.25; margin:0 0 6px; letter-spacing:-.005em;
@@ -111,7 +118,7 @@
     font-size:11px; font-weight:600; color:#FFFFFF;
     backdrop-filter:blur(2px);
   }
-  .chip b{color:#FFB27A; font-weight:700; margin-right:4px;}
+  .chip b{color:var(--soft); font-weight:700; margin-right:4px;}
 
   /* ---------- course list (home) ---------- */
   .section-label{
@@ -228,8 +235,8 @@
     .back-btn svg{ width:28px; height:28px; }
 
     /* banners */
-    .banner{ padding:56px var(--gutter) 58px; }
-    .banner-art{ width:380px; height:290px; right:var(--gutter); bottom:-6px; }
+    .banner{ padding:56px var(--gutter) 58px; min-height:400px; display:flex; flex-direction:column; justify-content:center; }
+    .banner-art{ width:500px; height:389px; right:calc(var(--gutter) - 20px); bottom:-10px; opacity:1; }
     .banner-body{ max-width:640px; min-width:0; }
     .banner-eyebrow{ font-size:12px; margin-bottom:12px; }
     .banner-title{ font-size:40px; line-height:1.18; margin-bottom:12px; }
@@ -267,10 +274,10 @@
 
     .panel{ padding:28px var(--gutter) 48px; }
     .panel:not(.hidden){
-      display:block; column-count:2; column-gap:22px;
+      display:grid; grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:20px 22px; align-items:start;
     }
     .topic{
-      break-inside:avoid; -webkit-column-break-inside:avoid; margin-bottom:22px;
       background:#FFFFFF; border:1px solid var(--line); border-radius:16px;
       overflow:hidden; box-shadow:0 2px 10px rgba(20,33,61,.06);
     }
@@ -282,7 +289,7 @@
     .item:last-child{ border-bottom:none; }
     .item-title{ font-size:13.5px; }
     .item-sub{ font-size:11.5px; }
-    .empty-tab{ column-span:all; background:#FFFFFF; border:1px solid var(--line); border-radius:16px; }
+    .empty-tab{ grid-column:1 / -1; background:#FFFFFF; border:1px solid var(--line); border-radius:16px; }
 
     .site-footer{ padding:34px var(--gutter) 40px; }
     .good-luck{ font-size:15px; }
@@ -290,7 +297,7 @@
   }
 
   @media (min-width:1400px){
-    .panel:not(.hidden){ column-count:3; }
+    .panel:not(.hidden){ grid-template-columns:repeat(3, minmax(0,1fr)); }
   }
 
   /* tablets: single wide column, a bit more breathing room */
@@ -298,14 +305,14 @@
     .banner{ padding:36px 28px 38px; }
     .banner-title{ font-size:28px; }
     .banner-text{ font-size:14px; }
-    .banner-art{ width:220px; height:168px; }
+    .banner-art{ width:290px; height:226px; right:-10px; opacity:.9; }
   }
 
   /* small phones */
   @media (max-width:380px){
     .banner-title{ font-size:19px; }
     .banner-body{ max-width:100%; }
-    .banner-art{ opacity:.35; }
+    .banner-art{ opacity:.3; }
     .tab-btn{ padding:9px 13px; }
   }
 </style>
@@ -323,15 +330,40 @@
       </div>
     </div>
     <div class="banner">
-      <svg class="banner-art" viewBox="0 0 170 130" fill="none" aria-hidden="true">
-        <rect x="14" y="78" width="20" height="46" rx="4" fill="#FFFFFF" fill-opacity=".16"/>
-        <rect x="44" y="58" width="20" height="66" rx="4" fill="#FFFFFF" fill-opacity=".22"/>
-        <rect x="74" y="66" width="20" height="58" rx="4" fill="#FFFFFF" fill-opacity=".16"/>
-        <rect x="104" y="36" width="20" height="88" rx="4" fill="#F26A1B" fill-opacity=".85"/>
-        <rect x="134" y="22" width="20" height="102" rx="4" fill="#FFFFFF" fill-opacity=".26"/>
-        <path d="M12 70 L54 46 L84 56 L114 26 L152 10" stroke="#FFB27A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="152" cy="10" r="4.5" fill="#FFB27A"/>
-        <circle cx="114" cy="26" r="3.5" fill="#fff"/>
+      <svg class="banner-art" viewBox="0 0 360 280" fill="none" aria-hidden="true">
+        <circle cx="250" cy="150" r="124" stroke="#fff" stroke-opacity=".07" stroke-width="1.5"/>
+        <circle cx="250" cy="150" r="92" stroke="#fff" stroke-opacity=".09" stroke-width="1.5"/>
+        <circle cx="250" cy="150" r="60" stroke="#fff" stroke-opacity=".11" stroke-width="1.5"/>
+        <g class="fa">
+          <rect x="120" y="70" width="214" height="146" rx="18" fill="#fff" fill-opacity=".10" stroke="#fff" stroke-opacity=".28"/>
+          <rect x="140" y="90" width="64" height="7" rx="3.5" fill="#fff" fill-opacity=".6"/>
+          <rect x="140" y="104" width="40" height="5" rx="2.5" fill="#fff" fill-opacity=".3"/>
+          <rect x="142" y="166" width="18" height="30" rx="4" fill="#fff" fill-opacity=".25"/>
+          <rect x="170" y="152" width="18" height="44" rx="4" fill="#fff" fill-opacity=".30"/>
+          <rect x="198" y="158" width="18" height="38" rx="4" fill="#fff" fill-opacity=".25"/>
+          <rect x="226" y="134" width="18" height="62" rx="4" style="fill:var(--accent)"/>
+          <rect x="254" y="144" width="18" height="52" rx="4" fill="#fff" fill-opacity=".30"/>
+          <rect x="282" y="116" width="18" height="80" rx="4" fill="#fff" fill-opacity=".38"/>
+          <path d="M142 156 L179 140 L207 148 L235 122 L263 132 L291 104" style="stroke:var(--soft)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="291" cy="104" r="5" style="fill:var(--soft)"/>
+          <circle cx="235" cy="122" r="3.5" fill="#fff"/>
+        </g>
+        <g class="fb">
+          <rect x="34" y="150" width="108" height="96" rx="16" fill="#0E1A33" fill-opacity=".62" stroke="#fff" stroke-opacity=".25"/>
+          <circle cx="88" cy="190" r="23" stroke="#fff" stroke-opacity=".18" stroke-width="7"/>
+          <circle cx="88" cy="190" r="23" style="stroke:var(--accent)" stroke-width="7" stroke-linecap="round" stroke-dasharray="108 145" transform="rotate(-90 88 190)"/>
+          <text x="88" y="195" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">75%</text>
+          <rect x="58" y="225" width="60" height="5" rx="2.5" fill="#fff" fill-opacity=".3"/>
+        </g>
+        <g class="fc">
+          <path d="M262 16 L316 36 L262 56 L208 36 Z" style="fill:var(--accent)"/>
+          <path d="M232 47 v20 c0 9 60 9 60 0 v-20 l-30 11 z" fill="#fff" fill-opacity=".88"/>
+          <path d="M316 36 v26" style="stroke:var(--soft)" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="316" cy="66" r="4.5" style="fill:var(--soft)"/>
+        </g>
+        <circle cx="40" cy="96" r="5" fill="#fff" fill-opacity=".35"/>
+        <circle cx="96" cy="46" r="3" style="fill:var(--soft)"/>
+        <circle cx="344" cy="206" r="4" fill="#fff" fill-opacity=".3"/>
       </svg>
       <div class="banner-body">
         <span class="banner-eyebrow">ACCA · Structured Learning</span>
@@ -356,16 +388,41 @@
       </div>
     </div>
 
-    <div class="banner">
-      <svg class="banner-art" viewBox="0 0 170 130" fill="none" aria-hidden="true">
-        <rect x="14" y="78" width="20" height="46" rx="4" fill="#FFFFFF" fill-opacity=".16"/>
-        <rect x="44" y="58" width="20" height="66" rx="4" fill="#FFFFFF" fill-opacity=".22"/>
-        <rect x="74" y="66" width="20" height="58" rx="4" fill="#FFFFFF" fill-opacity=".16"/>
-        <rect x="104" y="36" width="20" height="88" rx="4" fill="#F26A1B" fill-opacity=".85"/>
-        <rect x="134" y="22" width="20" height="102" rx="4" fill="#FFFFFF" fill-opacity=".26"/>
-        <path d="M12 70 L54 46 L84 56 L114 26 L152 10" stroke="#FFB27A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="152" cy="10" r="4.5" fill="#FFB27A"/>
-        <circle cx="114" cy="26" r="3.5" fill="#fff"/>
+    <div class="banner" id="courseBanner">
+      <svg class="banner-art" viewBox="0 0 360 280" fill="none" aria-hidden="true">
+        <circle cx="250" cy="150" r="124" stroke="#fff" stroke-opacity=".07" stroke-width="1.5"/>
+        <circle cx="250" cy="150" r="92" stroke="#fff" stroke-opacity=".09" stroke-width="1.5"/>
+        <circle cx="250" cy="150" r="60" stroke="#fff" stroke-opacity=".11" stroke-width="1.5"/>
+        <g class="fa">
+          <rect x="120" y="70" width="214" height="146" rx="18" fill="#fff" fill-opacity=".10" stroke="#fff" stroke-opacity=".28"/>
+          <rect x="140" y="90" width="64" height="7" rx="3.5" fill="#fff" fill-opacity=".6"/>
+          <rect x="140" y="104" width="40" height="5" rx="2.5" fill="#fff" fill-opacity=".3"/>
+          <rect x="142" y="166" width="18" height="30" rx="4" fill="#fff" fill-opacity=".25"/>
+          <rect x="170" y="152" width="18" height="44" rx="4" fill="#fff" fill-opacity=".30"/>
+          <rect x="198" y="158" width="18" height="38" rx="4" fill="#fff" fill-opacity=".25"/>
+          <rect x="226" y="134" width="18" height="62" rx="4" style="fill:var(--accent)"/>
+          <rect x="254" y="144" width="18" height="52" rx="4" fill="#fff" fill-opacity=".30"/>
+          <rect x="282" y="116" width="18" height="80" rx="4" fill="#fff" fill-opacity=".38"/>
+          <path d="M142 156 L179 140 L207 148 L235 122 L263 132 L291 104" style="stroke:var(--soft)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="291" cy="104" r="5" style="fill:var(--soft)"/>
+          <circle cx="235" cy="122" r="3.5" fill="#fff"/>
+        </g>
+        <g class="fb">
+          <rect x="34" y="150" width="108" height="96" rx="16" fill="#0E1A33" fill-opacity=".62" stroke="#fff" stroke-opacity=".25"/>
+          <circle cx="88" cy="190" r="23" stroke="#fff" stroke-opacity=".18" stroke-width="7"/>
+          <circle cx="88" cy="190" r="23" style="stroke:var(--accent)" stroke-width="7" stroke-linecap="round" stroke-dasharray="108 145" transform="rotate(-90 88 190)"/>
+          <text x="88" y="195" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">75%</text>
+          <rect x="58" y="225" width="60" height="5" rx="2.5" fill="#fff" fill-opacity=".3"/>
+        </g>
+        <g class="fc">
+          <path d="M262 16 L316 36 L262 56 L208 36 Z" style="fill:var(--accent)"/>
+          <path d="M232 47 v20 c0 9 60 9 60 0 v-20 l-30 11 z" fill="#fff" fill-opacity=".88"/>
+          <path d="M316 36 v26" style="stroke:var(--soft)" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="316" cy="66" r="4.5" style="fill:var(--soft)"/>
+        </g>
+        <circle cx="40" cy="96" r="5" fill="#fff" fill-opacity=".35"/>
+        <circle cx="96" cy="46" r="3" style="fill:var(--soft)"/>
+        <circle cx="344" cy="206" r="4" fill="#fff" fill-opacity=".3"/>
       </svg>
       <div class="banner-body">
         <span class="banner-eyebrow" id="courseBannerEyebrow"></span>
@@ -701,8 +758,12 @@
           </span>
         </div>`).join('');
 
+      // desktop: topics start collapsed so the grid reads left-to-right in clean rows
+      const startCollapsed = window.matchMedia('(min-width:900px)').matches;
+      if (startCollapsed) wrap.classList.add('collapsed');
+
       wrap.innerHTML = `
-        <button class="topic-head" aria-expanded="true">
+        <button class="topic-head" aria-expanded="${!startCollapsed}">
           ${TOPIC_SVG}
           <span class="topic-name">${esc(topic.name)}</span>
         </button>
@@ -797,13 +858,24 @@
 
     // course banner
     const attachCount = (course.attachments || []).reduce((n, t) => n + (t.materials || []).length, 0);
+    const palette = [
+      { accent:'#F26A1B', soft:'#FFB27A', glow:'242,106,27' },   // FA2 orange
+      { accent:'#14B8A6', soft:'#7EE7DA', glow:'20,184,166' },    // F2/MA teal
+      { accent:'#8B5CF6', soft:'#C4B0FF', glow:'139,92,246' },    // MA1 violet
+      { accent:'#3B82F6', soft:'#9CC3FF', glow:'59,130,246' },    // MA2 blue
+    ];
+    const pal = palette[idx % palette.length];
+    const bannerEl = document.getElementById('courseBanner');
+    bannerEl.style.setProperty('--accent', pal.accent);
+    bannerEl.style.setProperty('--soft', pal.soft);
+    bannerEl.style.setProperty('--glow', pal.glow);
     document.getElementById('courseBannerEyebrow').textContent = course.code;
     document.getElementById('courseBannerTitle').textContent = course.name;
     document.getElementById('courseBannerText').textContent = course.tagline || '';
     document.getElementById('courseChips').innerHTML = `
       <span class="chip"><b>${course.topics.length}</b>Topics</span>
       <span class="chip"><b>${st.lectures}</b>Lectures</span>
-      <span class="chip"><b>${st.resources + attachCount}</b>Files</span>`;
+      ${(st.resources + attachCount) > 0 ? `<span class="chip"><b>${st.resources + attachCount}</b>Files</span>` : ''}`;
 
     showTab('lectures');
     shelfScreen.classList.add('hidden');
