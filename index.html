@@ -723,10 +723,40 @@
     // Variances classes, same lectures as F2/MA
     topics.push(clone(f2.topics.find(t => t.name === "Variances")));
 
+    // MA2 course attachments (Google Drive links)
+    const D = id => "https://drive.google.com/file/d/" + id + "/view?usp=drive_link";
+
     courses.push({
       id: "ma2", code: "ACCA · FIA", name: "MA2 — Managing Costs and Finances", tagline: "ACCA Applied Knowledge",
       topics: topics,
-      attachments: []
+      attachments: [
+        { name: "Study Notes", lectures: [], materials: [
+          { title: "Cash Management", url: D("1wX6e1IJBqXUxRNQfTO2Wl6eAmKvyW8fR") },
+          { title: "Cost Analysis", url: D("1mZd-H0wjNV5SnrwB9DyQQg-dj8HmZOPq") },
+          { title: "CVP Analysis", url: D("1z43GOXTdlXvGGOdnYdcg9y01pRuvNmaw") },
+          { title: "Job Batch Costing and Variances", url: D("1TShuX1un2J4TLRMec-Votz8Q3iQZnFVN") },
+          { title: "Joint Products and Further Processing", url: D("1UiaHC4RX2GB68dUVKNn6EeJsj3s7QyUJ") },
+          { title: "MA2 MHA Book", url: "https://docs.google.com/document/d/1HUhbL7FYjsgc03MDbe_n8u_AC4DQH9Vz/edit?usp=drive_link&ouid=106700177778643140261&rtpof=true&sd=true" },
+          { title: "Management Information (Notes 1)", url: D("1ka0HYMIlY3tx5SNzOSWmmvTCCtQTQ62r") },
+          { title: "Material, Labour, Marginal and Absorption Costing", url: D("1DtIvQ3_7TtOL9EXmPsaflvE7caCkE-HI") },
+          { title: "Reporting Management", url: D("1wCr6ip7Lo9o9c60zxUbU0vu7d0Fu5YTl") },
+          { title: "Reporting", url: D("1cNcRM-2K8_bszGBGlNO4kWZUB2TnLHso") },
+          { title: "Role of IT", url: D("110vW7miLan4LyeEjlihui_2KT7bqJ8qC") },
+          { title: "Management Information (Notes 2)", url: D("199ES2vIYkDuY2AsyeZw33cTubQ7IxHgL") },
+        ]},
+        { name: "Labour", lectures: [], materials: [
+          { title: "Labour - Practice Test", url: D("1pUzY8Xv0UFWotFQtiym9j1ngQud__VGB") },
+        ]},
+        { name: "Material", lectures: [], materials: [
+          { title: "Material - Practice Test", url: D("1ssp2FyR2VJ33m_qi88KQTmrA2WTDSI2H") },
+        ]},
+        { name: "Practice Tests", lectures: [], materials: [
+          { title: "Capital Investment Appraisal - Practice Test", url: D("1ERbBf-R9GA19b9ccnLDjsi-zu7aaKaJ_") },
+          { title: "MA1 Short Term Decisions - Practice Test", url: D("1YStFDW3LqxeeDNWMAQ_6F5ajyarMzWBQ") },
+          { title: "Management Information - Practice Test", url: D("1DCDHPx_xShxaKFS6wKymh5Z3yps8tNQU") },
+          { title: "Process Costing - Practice Test", url: D("1r7-SYs99VdzH-dBlGhFJiFSNxVws-3B5") },
+        ]},
+      ]
     });
   })();
 
